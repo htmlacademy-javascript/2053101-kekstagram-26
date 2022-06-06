@@ -8,7 +8,8 @@ function getRandomIntInclusive(min, max) {
       Math.floor(Math.random() * (max - min + 1) + min);
   return result;
 }
-
+getRandomIntInclusive(1,5)
 function checkStringLength(string, maxLength) {
   return string.length <= maxLength ? true : false;
 }
+checkStringLength('hello', 140)
