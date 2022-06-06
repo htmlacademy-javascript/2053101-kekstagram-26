@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // Источник функции https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 
 function getRandomIntInclusive(min, max) {
@@ -8,8 +9,8 @@ function getRandomIntInclusive(min, max) {
       Math.floor(Math.random() * (max - min + 1) + min);
   return result;
 }
-getRandomIntInclusive(1,5)
+getRandomIntInclusive(1,5);
 function checkStringLength(string, maxLength) {
-  return string.length <= maxLength ? true : false;
+  return string.length <= maxLength;
 }
-checkStringLength('hello', 140)
+checkStringLength('hello', 2);
