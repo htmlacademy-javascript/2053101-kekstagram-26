@@ -8,7 +8,8 @@ const getRandomIntInclusive = (min, max) => {
     (min < 0) ? 'Ошибка! Числа должны быть больше 0' :
       Math.floor(Math.random() * (max - min + 1) + min);
   return result;
-}
+};
 getRandomIntInclusive(1,5);
+
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
-console.log(checkStringLength('hello', 14));
+checkStringLength('hello', 14);
