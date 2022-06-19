@@ -1,12 +1,16 @@
 import { getRandomIntInclusive, checkStringLength } from './util.js';
-import { DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS } from './data.js';
+import { DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS, MAX_SYMBOLS } from './data.js';
 
-const createComment = () => ({
-  id: getRandomIntInclusive(0, 1000),
-  avatar: `img/avatar-${ getRandomIntInclusive(1, 6) }.svg`,
-  message: MESSAGES[getRandomIntInclusive(0, MESSAGES.length - 1)],
-  name: NAMES[getRandomIntInclusive(0, NAMES.length - 1)],
-});
+const createComment = () => {
+  const textMessage = MESSAGES[getRandomIntInclusive(0, MESSAGES.length - 1)];
+  if (checkStringLength(textMessage, MAX_SYMBOLS)) {
+    return {
+      id: getRandomIntInclusive(0, 1000),
+      avatar: `img/avatar-${ getRandomIntInclusive(1, 6) }.svg`,
+      message: textMessage,
+      name: NAMES[getRandomIntInclusive(0, NAMES.length - 1)],
+    };}
+};
 
 const createPostPhoto = () => {
   const idUrlDescriptionIndex = getRandomIntInclusive(1, 25);

@@ -1,5 +1,7 @@
 // Количество фотографий в альбоме
 const NUMBER_ID_PHOTOS = 25;
+// Максимальное количество символов в комментарии
+const MAX_SYMBOLS = 140;
 
 // Описания фотографий
 const DESCRIPTIONS = [
@@ -56,4 +58,4 @@ const NAMES = [
   'Дормидонт',
 ];
 
-export {DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS};
+export {DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS, MAX_SYMBOLS};
