@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { getRandomIntInclusive, checkStringLength } from './util';
-import { DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ОF_PHOTOS } from './data';
+import { DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS } from './data';
 
 const createComment = () => ({
   id: getRandomIntInclusive(0, 1000),
@@ -20,8 +20,8 @@ const createPostPhoto = () => {
     comments: Array.from({length:getRandomIntInclusive(1, 10)}, createComment),
   };
 };
-console.log(createPostPhoto());
-const createPhotoAlbum = Array.from({length:NUMBER_ОF_PHOTOS}, createPostPhoto);
+
+const createPhotoAlbum = Array.from({length:NUMBER_ID_PHOTOS}, createPostPhoto);
 // eslint-disable-next-line no-console
 console.log(createPhotoAlbum());
 export {createPhotoAlbum};

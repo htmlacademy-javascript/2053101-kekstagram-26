@@ -1,3 +1,3 @@
-import { createPhotoAlbum } from "./create-photo-album";
-createPhotoAlbum();
+import { createPhotoAlbum } from './create-photo-album';
+// createPhotoAlbum();
 console.log(createPhotoAlbum);
