@@ -25,5 +25,3 @@ const createPostPhoto = () => {
 };
 
 const createPhotoAlbum = () => Array.from({length:NUMBER_ID_PHOTOS}, createPostPhoto);
-
-console.log(createPhotoAlbum());
