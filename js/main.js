@@ -1,3 +1,3 @@
-import {createPhotoAlbum} from './create-photo-album.js'
+import { printPhoto } from './print-photo.js';
 
-const pa = createPhotoAlbum();
+printPhoto();
