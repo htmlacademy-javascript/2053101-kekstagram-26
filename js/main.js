@@ -25,4 +25,31 @@ const createPostPhoto = () => {
 };
 
 const createPhotoAlbum = () => Array.from({length:NUMBER_ID_PHOTOS}, createPostPhoto);
-createPhotoAlbum();
+
+
+const pictureTemplate = document.querySelector('#picture').content.querySelector('a');
+const photoAlbum = createPhotoAlbum();
+const photoAlbumFragment = document.createDocumentFragment();
+const picturesContainer = document.querySelector('.pictures');
+
+photoAlbum.forEach((element) => {
+  const newPicture = pictureTemplate.cloneNode(true);
+  newPicture.querySelector('.picture__img').src = element.url;
+  newPicture.querySelector('.picture__likes').textContent = element.likes;
+  newPicture.querySelector('.picture__comments').textContent = element.comments.length;
+  photoAlbumFragment.append(newPicture);
+});
+
+picturesContainer.append(photoAlbumFragment);
+
+// Заведите модуль, который будет отвечать за отрисовку миниатюр.
+
+// На основе временных данных для разработки и шаблона #picture создайте DOM-элементы, соответствующие фотографиям,
+//  и заполните их данными:
+
+// Адрес изображения url подставьте как атрибут src изображения.
+// Количество лайков likes выведите в блок .picture__likes.
+// Количество комментариев comments выведите в блок .picture__comments.
+// Отрисуйте сгенерированные DOM-элементы в блок .pictures. Для вставки элементов используйте DocumentFragment.
+
+// Подключите модуль в проект.
