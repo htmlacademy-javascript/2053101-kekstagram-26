@@ -5,7 +5,7 @@ const photoAlbum = createPhotoAlbum();
 const photoAlbumFragment = document.createDocumentFragment();
 const picturesContainer = document.querySelector('.pictures');
 
-const printPhoto = () => {photoAlbum.forEach((element) => {
+const createPhoto = () => {photoAlbum.forEach((element) => {
   const newPicture = pictureTemplate.cloneNode(true);
   newPicture.querySelector('.picture__img').src = element.url;
   newPicture.querySelector('.picture__likes').textContent = element.likes;
@@ -15,4 +15,4 @@ const printPhoto = () => {photoAlbum.forEach((element) => {
 picturesContainer.append(photoAlbumFragment);
 };
 
-export {printPhoto};
+export {createPhoto};
