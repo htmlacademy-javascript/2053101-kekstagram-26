@@ -16,5 +16,5 @@ const createPhoto = () => {photoAlbum.forEach((element, index) => {
 });
 picturesContainer.append(photoAlbumFragment);
 };
-console.log(photoAlbum)
+
 export {createPhoto, photoAlbum};
