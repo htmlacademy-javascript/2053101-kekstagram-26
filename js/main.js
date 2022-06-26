@@ -1,3 +1,3 @@
-import { printPhoto } from './print-photo.js';
+import { createBigPhoto } from './create-big-photo.js';
 
-printPhoto();
+createBigPhoto();
