@@ -12,4 +12,7 @@ const getRandomIntInclusive = (min, max) => {
 
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
-export {getRandomIntInclusive, checkStringLength};
+const isEsc = (evt) => evt.key === 'Escape';
+const isEnter = (evt) => evt.key === 'Enter';
+
+export {getRandomIntInclusive, checkStringLength, isEsc, isEnter};

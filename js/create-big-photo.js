@@ -1,4 +1,5 @@
 import { createPhoto, photoAlbum } from './create-photo.js';
+import {isEsc} from './util.js';
 
 const createBigPhoto = () => {
   createPhoto();
@@ -19,7 +20,7 @@ const createBigPhoto = () => {
   };
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
   document.addEventListener('keydown', (evt) => {
-    if(evt.key === 'Escape') {
+    if(isEsc(evt)) {
       closeBigPicture();
     }
   });
@@ -40,7 +41,7 @@ const createBigPhoto = () => {
       likesCount.textContent = element.querySelector('.picture__likes').textContent;
       commentsCount.textContent = element.querySelector('.picture__comments').textContent;
 
-      socialComments.innerHTML = '';
+      socialComments.textContent = '';
 
       // Находим объект по index, чтобы вернуть комментарии, описание и т.д. к картинке
       const currentIndex = Number(element.dataset.index);
