@@ -18,9 +18,12 @@ const createBigPhoto = () => {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
   };
+
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
+
   document.addEventListener('keydown', (evt) => {
     if(isEsc(evt)) {
+      evt.preventDefault();
       closeBigPicture();
     }
   });
