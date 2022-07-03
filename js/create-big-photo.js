@@ -21,12 +21,12 @@ const createBigPhoto = () => {
 
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
 
-  document.addEventListener('keydown', (evt) => {
-    if(isEsc(evt)) {
-      evt.preventDefault();
-      closeBigPicture();
-    }
-  });
+  // document.addEventListener('keydown', (evt) => {
+  //   if(isEsc(evt)) {
+  //     evt.preventDefault();
+  //     closeBigPicture();
+  //   }
+  // });
 
   // Функция для создания DOM-элемента
   const createNewElement = (tagName, className, text) => {

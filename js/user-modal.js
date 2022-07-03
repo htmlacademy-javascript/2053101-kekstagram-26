@@ -5,7 +5,7 @@ const uploadFile = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadFileClose = document.querySelector('#upload-cancel');
 
-const modalEscKeydownHandler = (evt) => {
+const modalEscKeydownHandler = (evt) => {debugger;
   if(isEsc(evt)) {
     evt.preventDefault();
     closeModal();
@@ -15,13 +15,13 @@ const modalEscKeydownHandler = (evt) => {
 function openModal() {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  uploadFile.addEventListener('keydown', modalEscKeydownHandler);
+  imgUploadOverlay.addEventListener('keydown', modalEscKeydownHandler);
 }
 
-function closeModal() {
+function closeModal() {debugger
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  uploadFile.removeEventListener('keydown', modalEscKeydownHandler);
+  imgUploadOverlay.removeEventListener('keydown', modalEscKeydownHandler);
   uploadImageForm.reset();
 }
 
@@ -37,7 +37,7 @@ const pristine = new Pristine(imgUploadForm, {
   errorClass: 'img-upload__field-wrapper--invalid',
   successClass: 'img-upload__field-wrapper--valid',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'span',
+  errorTextTag: 'div',
   errorTextClass: 'form__error'
 });
 
@@ -47,10 +47,11 @@ const hashtags = (value) => value.toLowerCase().split(' ');
 
 pristine.addValidator(hashtagInput,
   (value) => hashtags(value).length <= 5,
-  'Хэштегов должно быть не более 5-ти');
+  'Хэштегов должно быть не более 5-ти'
+);
 
 pristine.addValidator(hashtagInput,
-  (value) => hashtags(value).every((item) => /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/.test(item)),
+  (value) => hashtags(value).every((item) => /^#[A-Za-zА-Яа-яЁё0-9'']{1,19}$/.test(item)),
   'Хэштег должен начинаться с # и не должен  содержать пробелы, спецсимволы (#, @, $ и т. п.)'
 );
 
@@ -64,18 +65,22 @@ const textDescription = document.querySelector('.text__description');
 
 pristine.addValidator(textDescription,
   (value) => checkStringLength(value, 140),
-  'Количество символов в комментарии должно быть не более 140');
+  // 'Количество символов в комментарии должно быть не более 140'
+);
 
-const imgUploadButton = document.querySelector('.img-upload__submit');
+const uploadButton = document.querySelector('.img-upload__submit');
 
-// submitImgUploadSubmitHandler
-const isUploadFormValid = () => pristine.validate();
-
-imgUploadButton.addEventListener('click', (evt) => {
-  if(!isUploadFormValid()) {
+const inputHashtagDescriptionHandler = (evt) => {
+  // debugger;
+  const isValid = pristine.validate();
+  if(!isValid) {
     evt.preventDefault();
-    imgUploadButton.disabled = true;
+    uploadButton.disabled = true;
+  } else {
+    uploadButton.disabled = false;
   }
+};
 
-})
+hashtagInput.addEventListener('input', inputHashtagDescriptionHandler);
+textDescription.addEventListener('input', inputHashtagDescriptionHandler);
 
