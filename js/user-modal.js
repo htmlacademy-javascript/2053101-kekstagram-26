@@ -65,3 +65,17 @@ const textDescription = document.querySelector('.text__description');
 pristine.addValidator(textDescription,
   (value) => checkStringLength(value, 140),
   'Количество символов в комментарии должно быть не более 140');
+
+const imgUploadButton = document.querySelector('.img-upload__submit');
+
+// submitImgUploadSubmitHandler
+const isUploadFormValid = () => pristine.validate();
+
+imgUploadButton.addEventListener('click', (evt) => {
+  if(!isUploadFormValid()) {
+    evt.preventDefault();
+    imgUploadButton.disabled = true;
+  }
+
+})
+
