@@ -29,14 +29,37 @@ uploadFile.addEventListener('change', () => openModal());
 
 uploadFileClose.addEventListener('click', () => closeModal());
 
+// Валидация формы pristine
 const imgUploadForm = document.querySelector('.img-upload__form');
-const hashtags = document.querySelector('[name="hashtags"]');
 
 const pristine = new Pristine(imgUploadForm, {
-  classTo: 'img-upload__hashtags',
-  errorTextParent: 'img-upload__hashtags',
-  errorTextClass: '.form__error'
+  classTo: 'img-upload__field-wrapper',
+  errorClass: 'img-upload__field-wrapper--invalid',
+  successClass: 'img-upload__field-wrapper--valid',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextTag: 'span',
+  errorTextClass: 'form__error'
 });
+
+// Валидация хэштегов
+const hashtagInput = document.querySelector('[name="hashtags"]');
+
+
+pristine.addValidator(
+  hashtagInput,
+  validateHashtags,
+  'Хэштег должен начинаться с # и не должен  содержать пробелы, спецсимволы (#, @, $ и т. п.)');
+
+function validateHashtags (value) {
+  const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+  const hashtags = value.split(' ');
+  for(let i = 0; i < hashtags.length; i++) {
+    if(!re.test(hashtags[i])) {
+      return false;
+    }
+  }
+  return true;
+}
 
 imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -44,5 +67,3 @@ imgUploadForm.addEventListener('submit', (evt) => {
   isValid ? console.log('ok') : console.log('not ok');
 });
 
-
-// ^#[A-Za-zА-Яа-яЁё0-9]{1,19}$
