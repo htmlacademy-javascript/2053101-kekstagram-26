@@ -1,4 +1,4 @@
-import { isEsc } from './util.js';
+import { isEsc, testUnique, checkStringLength } from './util.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
@@ -29,7 +29,7 @@ uploadFile.addEventListener('change', () => openModal());
 
 uploadFileClose.addEventListener('click', () => closeModal());
 
-// Валидация формы pristine
+// Настройка pristine
 const imgUploadForm = document.querySelector('.img-upload__form');
 
 const pristine = new Pristine(imgUploadForm, {
@@ -42,28 +42,26 @@ const pristine = new Pristine(imgUploadForm, {
 });
 
 // Валидация хэштегов
-const hashtagInput = document.querySelector('[name="hashtags"]');
+const hashtagInput = document.querySelector('.text__hashtags');
+const hashtags = (value) => value.toLowerCase().split(' ');
 
+pristine.addValidator(hashtagInput,
+  (value) => hashtags(value).length <= 5,
+  'Хэштегов должно быть не более 5-ти');
 
-pristine.addValidator(
-  hashtagInput,
-  validateHashtags,
-  'Хэштег должен начинаться с # и не должен  содержать пробелы, спецсимволы (#, @, $ и т. п.)');
+pristine.addValidator(hashtagInput,
+  (value) => hashtags(value).every((item) => /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/.test(item)),
+  'Хэштег должен начинаться с # и не должен  содержать пробелы, спецсимволы (#, @, $ и т. п.)'
+);
 
-function validateHashtags (value) {
-  const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-  const hashtags = value.split(' ');
-  for(let i = 0; i < hashtags.length; i++) {
-    if(!re.test(hashtags[i])) {
-      return false;
-    }
-  }
-  return true;
-}
+pristine.addValidator(hashtagInput,
+  (value) => testUnique(hashtags(value)),
+  'Хэштеги не должны повторяться'
+);
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  isValid ? console.log('ok') : console.log('not ok');
-});
+// Валидация комментариев
+const textDescription = document.querySelector('.text__description');
 
+pristine.addValidator(textDescription,
+  (value) => checkStringLength(value, 140),
+  'Количество символов в комментарии должно быть не более 140');

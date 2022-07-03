@@ -15,4 +15,14 @@ const checkStringLength = (string, maxLength) => string.length <= maxLength;
 const isEsc = (evt) => evt.key === 'Escape';
 const isEnter = (evt) => evt.key === 'Enter';
 
-export {getRandomIntInclusive, checkStringLength, isEsc, isEnter};
+const testUnique = (value) =>
+{
+  const n = value.length;
+  for (let i = 0; i < n-1; i++)
+  { for (let j = i+1; j < n; j++)
+  { if (value[ i ] === value[j]) {return false;} }
+  }
+  return true;
+};
+
+export {getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique};
