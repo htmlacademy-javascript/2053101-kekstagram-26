@@ -30,7 +30,7 @@ const createBigPhoto = () => {
     commentsLoader.classList.add('hidden');
     document.body.classList.add('modal-open');
     // Добавляем обработчик esc
-    document.addEventListener('keydown', () => onBigPictureEscKeydown);
+    document.addEventListener('keydown', onBigPictureEscKeydown);
   }
 
   // Функция закрытия большой картинки
@@ -38,7 +38,7 @@ const createBigPhoto = () => {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
     // Удаляем обработчик esc
-    document.removeEventListener('keydown', () => onBigPictureEscKeydown);
+    document.removeEventListener('keydown', onBigPictureEscKeydown);
   }
 
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
