@@ -15,6 +15,16 @@ const checkStringLength = (string, maxLength) => string.length <= maxLength;
 const isEsc = (evt) => evt.key === 'Escape';
 const isEnter = (evt) => evt.key === 'Enter';
 
+// Функция для создания DOM-элемента
+const createNewElement = (tagName, className, text) => {
+  const element = document.createElement(tagName);
+  element.classList.add(className);
+  if (text) {
+    element.textContent = text;
+  }
+  return element;
+};
+
 const testUnique = (value) =>
 {
   const n = value.length;
@@ -25,4 +35,4 @@ const testUnique = (value) =>
   return true;
 };
 
-export {getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique};
+export {getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique, createNewElement};

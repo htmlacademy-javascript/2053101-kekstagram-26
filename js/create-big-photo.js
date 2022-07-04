@@ -1,5 +1,5 @@
 import { createPhoto, photoAlbum } from './create-photo.js';
-import {isEsc} from './util.js';
+import {isEsc, createNewElement} from './util.js';
 
 const createBigPhoto = () => {
   createPhoto();
@@ -13,32 +13,37 @@ const createBigPhoto = () => {
   const socialComments = document.querySelector('.social__comments');
   const socialCaptions = document.querySelector('.social__caption');
 
-  // Функция и обработчики для закрытия большой картинки
-  const closeBigPicture = () => {
+  // Обработчик esc
+  const onBigPictureEscKeydown = (evt) => {
+    if(isEsc(evt)) {
+      evt.preventDefault();
+      closeBigPicture();
+    }
+  };
+
+  // Функция открытия большой картинки
+  function openBigPicture () {
+    bigPicture.classList.remove('hidden');
+    const socialCommentCount = document.querySelector('.social__comment-count');
+    const commentsLoader = document.querySelector('.comments-loader');
+    socialCommentCount.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
+    document.body.classList.add('modal-open');
+    // Добавляем обработчик esc
+    document.addEventListener('keydown', () => onBigPictureEscKeydown);
+  }
+
+  // Функция закрытия большой картинки
+  function closeBigPicture ()  {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
-  };
+    // Удаляем обработчик esc
+    document.removeEventListener('keydown', () => onBigPictureEscKeydown);
+  }
 
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
 
-  // document.addEventListener('keydown', (evt) => {
-  //   if(isEsc(evt)) {
-  //     evt.preventDefault();
-  //     closeBigPicture();
-  //   }
-  // });
-
-  // Функция для создания DOM-элемента
-  const createNewElement = (tagName, className, text) => {
-    const element = document.createElement(tagName);
-    element.classList.add(className);
-    if (text) {
-      element.textContent = text;
-    }
-    return element;
-  };
-
-  const addPictureClickHandler = (element) => {
+  const addClickPictureHandler = (element) => {
     element.addEventListener('click', ()=> {
       bigPictureImg.src = element.querySelector('.picture__img').src;
       likesCount.textContent = element.querySelector('.picture__likes').textContent;
@@ -66,18 +71,13 @@ const createBigPhoto = () => {
         }
       });
 
-      bigPicture.classList.remove('hidden');
-      const socialCommentCount = document.querySelector('.social__comment-count');
-      const commentsLoader = document.querySelector('.comments-loader');
-      socialCommentCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
-      document.body.classList.add('modal-open');
+      openBigPicture();
 
     });
   };
 
   pictures.forEach((element) => {
-    addPictureClickHandler(element);
+    addClickPictureHandler(element);
   });
 };
 
