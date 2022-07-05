@@ -7,8 +7,11 @@ const uploadFileClose = document.querySelector('#upload-cancel');
 
 const modalEscKeydownHandler = (evt) => {
   if(isEsc(evt)) {
-    evt.preventDefault();
-    closeModal();
+    const activeElementClassName = document.activeElement.className;
+    if(activeElementClassName !== 'text__hashtags' && activeElementClassName !== 'text__description'){
+      evt.preventDefault();
+      closeModal();
+    }
   }
 };
 
@@ -71,7 +74,6 @@ pristine.addValidator(textDescription,
 const uploadButton = document.querySelector('.img-upload__submit');
 
 const inputHashtagDescriptionHandler = (evt) => {
-  // debugger;
   const isValid = pristine.validate();
   if(!isValid) {
     evt.preventDefault();
@@ -83,4 +85,3 @@ const inputHashtagDescriptionHandler = (evt) => {
 
 hashtagInput.addEventListener('input', inputHashtagDescriptionHandler);
 textDescription.addEventListener('input', inputHashtagDescriptionHandler);
-
