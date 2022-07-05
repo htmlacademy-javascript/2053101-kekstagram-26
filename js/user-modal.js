@@ -5,7 +5,7 @@ const uploadFile = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadFileClose = document.querySelector('#upload-cancel');
 
-const modalEscKeydownHandler = (evt) => {debugger;
+const modalEscKeydownHandler = (evt) => {
   if(isEsc(evt)) {
     evt.preventDefault();
     closeModal();
@@ -15,13 +15,13 @@ const modalEscKeydownHandler = (evt) => {debugger;
 function openModal() {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  imgUploadOverlay.addEventListener('keydown', modalEscKeydownHandler);
+  document.addEventListener('keydown', modalEscKeydownHandler);
 }
 
-function closeModal() {debugger
+function closeModal() {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  imgUploadOverlay.removeEventListener('keydown', modalEscKeydownHandler);
+  document.removeEventListener('keydown', modalEscKeydownHandler);
   uploadImageForm.reset();
 }
 
