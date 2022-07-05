@@ -1395,3 +1395,12 @@ main {
 .hidden {
   display: none;
 }
+
+.form__error {
+  /* margin: 0;
+  padding: 0; */
+  display: block;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #c00;
+}

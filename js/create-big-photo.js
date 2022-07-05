@@ -1,9 +1,9 @@
 import { createPhoto, photoAlbum } from './create-photo.js';
+import {isEsc, createNewElement} from './util.js';
 
 const createBigPhoto = () => {
   createPhoto();
 
-  const pictures = document.querySelectorAll('.picture');
   const bigPicture = document.querySelector('.big-picture');
   const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
   const bigPictureCloseButton = bigPicture.querySelector('.big-picture__cancel');
@@ -12,38 +12,51 @@ const createBigPhoto = () => {
   const socialComments = document.querySelector('.social__comments');
   const socialCaptions = document.querySelector('.social__caption');
 
-  // Функция и обработчики для закрытия большой картинки
-  const closeBigPicture = () => {
-    bigPicture.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  };
-  bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
-  document.addEventListener('keydown', (evt) => {
-    if(evt.key === 'Escape') {
+  // Обработчик esc
+  const onBigPictureEscKeydown = (evt) => {
+    if(isEsc(evt)) {
+      evt.preventDefault();
       closeBigPicture();
     }
-  });
-
-  // Функция для создания DOM-элемента
-  const createNewElement = (tagName, className, text) => {
-    const element = document.createElement(tagName);
-    element.classList.add(className);
-    if (text) {
-      element.textContent = text;
-    }
-    return element;
   };
 
-  const addPictureClickHandler = (element) => {
-    element.addEventListener('click', ()=> {
-      bigPictureImg.src = element.querySelector('.picture__img').src;
-      likesCount.textContent = element.querySelector('.picture__likes').textContent;
-      commentsCount.textContent = element.querySelector('.picture__comments').textContent;
+  // Функция открытия большой картинки
+  function openBigPicture () {
+    bigPicture.classList.remove('hidden');
+    const socialCommentCount = document.querySelector('.social__comment-count');
+    const commentsLoader = document.querySelector('.comments-loader');
+    socialCommentCount.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
+    document.body.classList.add('modal-open');
+    // Добавляем обработчик esc
+    document.addEventListener('keydown', onBigPictureEscKeydown);
+  }
 
-      socialComments.innerHTML = '';
+  // Функция закрытия большой картинки
+  function closeBigPicture ()  {
+    bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    // Удаляем обработчик esc
+    document.removeEventListener('keydown', onBigPictureEscKeydown);
+  }
 
-      // Находим объект по index, чтобы вернуть комментарии, описание и т.д. к картинке
-      const currentIndex = Number(element.dataset.index);
+  bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
+
+  const picturesSection = document.querySelector('.pictures');
+
+  // Добавляем делегирование на контейнер картинок
+  picturesSection.addEventListener('click', (evt) => {
+    const currentElement = evt.target; // Объект, на который кликнули
+
+    if(currentElement.classList.contains('picture__img')) {
+
+      const currentIndex = Number(currentElement.closest('a').dataset.index); // Текущий индекс элемента из data-атрибута
+      bigPictureImg.src = currentElement.src;
+      likesCount.textContent = currentElement.closest('a').querySelector('.picture__likes').textContent;
+      commentsCount.textContent = currentElement.closest('a').querySelector('.picture__comments').textContent;
+      socialComments.textContent = ''; // Очистили шаблонные комментарии
+
+      // Находим объект по index, чтобы создать комментарии, описание и т.д. к картинке
       photoAlbum.forEach((item, index) => {
         if(index === currentIndex) {
           item.comments.forEach((comment) => {
@@ -61,20 +74,10 @@ const createBigPhoto = () => {
           socialCaptions.textContent = item.description;
         }
       });
-
-      bigPicture.classList.remove('hidden');
-      const socialCommentCount = document.querySelector('.social__comment-count');
-      const commentsLoader = document.querySelector('.comments-loader');
-      socialCommentCount.classList.add('hidden');
-      commentsLoader.classList.add('hidden');
-      document.body.classList.add('modal-open');
-
-    });
-  };
-
-  pictures.forEach((element) => {
-    addPictureClickHandler(element);
+      openBigPicture();
+    }
   });
+
 };
 
 export {createBigPhoto};
