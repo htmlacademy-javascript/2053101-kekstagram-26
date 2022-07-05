@@ -4,7 +4,6 @@ import {isEsc, createNewElement} from './util.js';
 const createBigPhoto = () => {
   createPhoto();
 
-  const pictures = document.querySelectorAll('.picture');
   const bigPicture = document.querySelector('.big-picture');
   const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
   const bigPictureCloseButton = bigPicture.querySelector('.big-picture__cancel');
@@ -43,41 +42,36 @@ const createBigPhoto = () => {
 
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
 
-  const addClickPictureHandler = (element) => {
-    element.addEventListener('click', ()=> {
-      bigPictureImg.src = element.querySelector('.picture__img').src;
-      likesCount.textContent = element.querySelector('.picture__likes').textContent;
-      commentsCount.textContent = element.querySelector('.picture__comments').textContent;
+  const picturesSection = document.querySelector('.pictures');
 
-      socialComments.textContent = '';
+  // Добавляем делегирование на контейнер картинок
+  picturesSection.addEventListener('click', (evt) => {
+    const currentElement = evt.target; // Объект, на который кликнули
+    const currentIndex = Number(currentElement.closest('a').dataset.index); // Текущий индекс элемента из data-атрибута
+    bigPictureImg.src = currentElement.src;
+    likesCount.textContent = currentElement.closest('a').querySelector('.picture__likes').textContent;
+    commentsCount.textContent = currentElement.closest('a').querySelector('.picture__comments').textContent;
+    socialComments.textContent = ''; // Очистили шаблонные комментарии
 
-      // Находим объект по index, чтобы вернуть комментарии, описание и т.д. к картинке
-      const currentIndex = Number(element.dataset.index);
-      photoAlbum.forEach((item, index) => {
-        if(index === currentIndex) {
-          item.comments.forEach((comment) => {
-            const socialComment = createNewElement('li','social__comment');
-            const socialPicture = createNewElement('img','social__picture');
-            socialPicture.src = comment.avatar;
-            socialPicture.alt = comment.name;
-            socialPicture.width = '35';
-            socialPicture.height = '35';
-            const socialText = createNewElement('p', 'social__text', comment.message);
-            socialComment.append(socialPicture);
-            socialComment.append(socialText);
-            socialComments.append(socialComment);
-          });
-          socialCaptions.textContent = item.description;
-        }
-      });
-
-      openBigPicture();
-
+    // Находим объект по index, чтобы создать комментарии, описание и т.д. к картинке
+    photoAlbum.forEach((item, index) => {
+      if(index === currentIndex) {
+        item.comments.forEach((comment) => {
+          const socialComment = createNewElement('li','social__comment');
+          const socialPicture = createNewElement('img','social__picture');
+          socialPicture.src = comment.avatar;
+          socialPicture.alt = comment.name;
+          socialPicture.width = '35';
+          socialPicture.height = '35';
+          const socialText = createNewElement('p', 'social__text', comment.message);
+          socialComment.append(socialPicture);
+          socialComment.append(socialText);
+          socialComments.append(socialComment);
+        });
+        socialCaptions.textContent = item.description;
+      }
     });
-  };
-
-  pictures.forEach((element) => {
-    addClickPictureHandler(element);
+    openBigPicture();
   });
 };
 
