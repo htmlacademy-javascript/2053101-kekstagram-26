@@ -67,30 +67,35 @@ const EFFECTS = [
     min: 0,
     max: 1,
     step: 0.1,
+    start: 1,
   },
   // СЕПИЯ
   { effect: 'effects__preview--sepia',
     min: 0,
     max: 1,
     step: 0.1,
+    start: 1,
   },
   // МАРВИН
   { effect: 'effects__preview--marvin',
     min: 0,
     max: 100,
     step: 1,
+    start: 100,
   },
   // ФОБОС
   { effect: 'effects__preview--phobos',
     min: 0,
     max: 3,
     step: 0.1,
+    start: 3,
   },
   // ЗНОЙ
   { effect: 'effects__preview--heat',
     min: 1,
     max: 3,
     step: 0.1,
+    start: 3,
   },
 ];
 

@@ -3,39 +3,51 @@ import { EFFECTS } from './data.js';
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
+let effectPreviewModifierGlobal;
 
 // Обработчик добавляет модификатор к картинке
 const onEffectListClick = (evt) => {
   const currentElement = evt.target;
   if (currentElement.tagName === 'INPUT') {
-    const effectPreviewModificator = currentElement.closest('li').querySelector('span').classList[1]; // определяем какой модификатор нужно добавить к картинке
+    const effectPreviewModifier = currentElement.closest('li').querySelector('span').classList[1]; // определяем какой модификатор нужно добавить к картинке
     if (imgUploadPreview.classList.length > 1) { // если модификаторов у картинки больше чем 1
       imgUploadPreview.classList.remove(imgUploadPreview.classList[1]); // то удаляем 2-й
     }
-    imgUploadPreview.classList.add(effectPreviewModificator);
+    imgUploadPreview.classList.add(effectPreviewModifier);
 
-    // const maxSet = EFFECTS.forEach((element) => {
-    //   if(element.effect === effectPreviewModificator) {
-    //     const maxP = element.max;
-    //     console.log(maxP);
-    //     return maxP;
-    //   }
-    // });
-    // console.log(maxSet());
+    let min;
+    let max;
+    let step;
+    let start;
 
+    const maxSet = EFFECTS.forEach((element) => {
+      if(element.effect === effectPreviewModifier) {
+        min = element.min;
+        max = element.max;
+        step = element.step;
+        start = element.start;
+      }
+    });
+
+    effectPreviewModifierGlobal = effectPreviewModifier;
+    // console.log(min, max, step, start);
+
+    // Обновляем установки слайдера
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 1,
-        max: 5,
+        min: min,
+        max: max,
       },
-      step: 0.1,
+      step: step,
+      start: start,
     });
   }
+  
 };
 // Добавляем обработчик на click по картинке
 effectsList.addEventListener('click', (evt) => onEffectListClick(evt));
 
-
+// Создаем слайдер
 const valueElement = document.querySelector('.effect-level__value');
 
 noUiSlider.create(sliderElement, {
@@ -43,13 +55,30 @@ noUiSlider.create(sliderElement, {
     min: 0,
     max: 100,
   },
-  start: 50,
+  start: 100,
   step: 1,
   connect: 'lower',
 });
 
 sliderElement.noUiSlider.on('update', () => {
   valueElement.value = sliderElement.noUiSlider.get();
-  // console.log(valueElement.value)
+  switch (effectPreviewModifierGlobal) {
+    case 'effects__preview--chrome':
+      imgUploadPreview.style.filter = `grayscale(${valueElement.value})`;
+      break;
+    case 'effects__preview--sepia':
+      imgUploadPreview.style.filter = `sepia(${valueElement.value})`;
+      break;
+    case 'effects__preview--marvin':
+      imgUploadPreview.style.filter = `invert(${valueElement.value})%`;
+      break;
+    case 'effects__preview--phobos':
+      imgUploadPreview.style.filter = 'blur(' + valueElement.value + ')px';
+      break;
+    case 'effects__preview--heat':
+      imgUploadPreview.style.filter = `brightness(${valueElement.value})`;
+      break;
+  }
+  console.log(valueElement.value)
 });
 
