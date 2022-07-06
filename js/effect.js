@@ -14,14 +14,22 @@ const onEffectListClick = (evt) => {
     }
     imgUploadPreview.classList.add(effectPreviewModificator);
 
+    // const maxSet = EFFECTS.forEach((element) => {
+    //   if(element.effect === effectPreviewModificator) {
+    //     const maxP = element.max;
+    //     console.log(maxP);
+    //     return maxP;
+    //   }
+    // });
+    // console.log(maxSet());
+
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: 1,
-        max: 10,
+        max: 5,
       },
       step: 0.1,
     });
-
   }
 };
 // Добавляем обработчик на click по картинке
@@ -42,6 +50,6 @@ noUiSlider.create(sliderElement, {
 
 sliderElement.noUiSlider.on('update', () => {
   valueElement.value = sliderElement.noUiSlider.get();
-  console.log(valueElement.value)
+  // console.log(valueElement.value)
 });
 
