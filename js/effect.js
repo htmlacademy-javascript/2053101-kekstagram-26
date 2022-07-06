@@ -1,4 +1,6 @@
+import { EFFECTS } from './data.js';
 
+const sliderElement = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
 
@@ -11,12 +13,21 @@ const onEffectListClick = (evt) => {
       imgUploadPreview.classList.remove(imgUploadPreview.classList[1]); // то удаляем 2-й
     }
     imgUploadPreview.classList.add(effectPreviewModificator);
+
+    sliderElement.noUiSlider.updateOptions({
+      range: {
+        min: 1,
+        max: 10,
+      },
+      step: 0.1,
+    });
+
   }
 };
 // Добавляем обработчик на click по картинке
 effectsList.addEventListener('click', (evt) => onEffectListClick(evt));
 
-const sliderElement = document.querySelector('.effect-level__slider');
+
 const valueElement = document.querySelector('.effect-level__value');
 
 noUiSlider.create(sliderElement, {
