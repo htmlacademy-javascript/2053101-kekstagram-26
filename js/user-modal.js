@@ -1,4 +1,5 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
+import { MAX_HASHTAGS } from './data.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
@@ -49,12 +50,22 @@ const hashtagInput = document.querySelector('.text__hashtags');
 const hashtags = (value) => value.toLowerCase().split(' ');
 
 pristine.addValidator(hashtagInput,
-  (value) => hashtags(value).length <= 5,
+  (value) => hashtags(value).length <= MAX_HASHTAGS,
   'Хэштегов должно быть не более 5-ти'
 );
 
+const isHashtagValid = (value) => {
+  const re = /^#[A-Za-z0-9А-Яа-яЁё]{1,19}$/i;
+  const arr = value.split(' ');
+  for (const arrElem of arr) {
+    if (!re.test(arrElem) && arrElem !== '') {
+      return false;
+    }
+  } return true;
+};
+
 pristine.addValidator(hashtagInput,
-  (value) => hashtags(value).every((item) => /^#[A-Za-zА-Яа-яЁё0-9'']{1,19}$/.test(item)),
+  (value) => isHashtagValid(value),
   'Хэштег должен начинаться с # и не должен  содержать пробелы, спецсимволы (#, @, $ и т. п.)'
 );
 
