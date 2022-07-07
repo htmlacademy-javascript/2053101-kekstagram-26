@@ -2,6 +2,8 @@
 const NUMBER_ID_PHOTOS = 25;
 // Максимальное количество символов в комментарии
 const MAX_SYMBOLS = 140;
+// Максимальное количество хештегов
+const MAX_HASHTAGS = 5;
 
 // Описания фотографий
 const DESCRIPTIONS = [
@@ -58,4 +60,48 @@ const NAMES = [
   'Дормидонт',
 ];
 
-export {DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS, MAX_SYMBOLS};
+// Предустановки слайдера в зависимости от выбранного эффекта
+const EFFECTS = [
+  // ХРОМ
+  { effect: 'effects__preview--chrome',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    start: 1,
+  },
+  // СЕПИЯ
+  { effect: 'effects__preview--sepia',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    start: 1,
+  },
+  // МАРВИН
+  { effect: 'effects__preview--marvin',
+    min: 0,
+    max: 100,
+    step: 1,
+    start: 100,
+  },
+  // ФОБОС
+  { effect: 'effects__preview--phobos',
+    min: 0,
+    max: 3,
+    step: 0.1,
+    start: 3,
+  },
+  // ЗНОЙ
+  { effect: 'effects__preview--heat',
+    min: 1,
+    max: 3,
+    step: 0.1,
+    start: 3,
+  },
+];
+
+// Предустановки для масштабирования превью фото
+const SCALE_STEP = 25;
+const  SCALE_MAX = 100;
+
+export {DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS, MAX_SYMBOLS, MAX_HASHTAGS,
+  EFFECTS, SCALE_STEP, SCALE_MAX};
