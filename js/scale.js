@@ -8,7 +8,7 @@ scaleControlBigger.addEventListener('click', () => {
   if (scaleControlNumber < 100) {
     scaleControlNumber += 25;
     scaleControlValue.value = `${ scaleControlNumber }%`;
-    imgUploadPreview.style.transform = 'scale(' + scaleControlNumber / 100 + ')';
+    imgUploadPreview.style.transform = `scale(${  scaleControlNumber / 100  })`;
   }
 });
 
@@ -16,6 +16,6 @@ scaleControlSmaller.addEventListener('click', () => {
   if (scaleControlNumber > 25) {
     scaleControlNumber -= 25;
     scaleControlValue.value = `${ scaleControlNumber }%`;
-    imgUploadPreview.style.transform = 'scale(' + scaleControlNumber / 100 + ')';
+    imgUploadPreview.style.transform = `scale(${  scaleControlNumber / 100  })`;
   }
 });
