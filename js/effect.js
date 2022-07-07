@@ -88,8 +88,6 @@ sliderElement.noUiSlider.on('update', () => {
     case 'effects__preview--heat':
       imgUploadPreview.style.filter = `brightness(${valueElement.value})`;
       break;
-    // default:
-    //   imgUploadPreview.style.filter = null;
   }
 });
 
