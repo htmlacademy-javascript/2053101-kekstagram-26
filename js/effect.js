@@ -10,6 +10,17 @@ const onEffectListClick = (evt) => {
   const currentElement = evt.target;
   if (currentElement.tagName === 'INPUT') {
     const effectPreviewModifier = currentElement.closest('li').querySelector('span').classList[1]; // определяем какой модификатор нужно добавить к картинке
+    effectPreviewModifierGlobal = effectPreviewModifier;
+
+    if (effectPreviewModifier === 'effects__preview--none') { // если выбран фильтр ОРИГИНАЛ
+      sliderElement.classList.add('hidden');
+      imgUploadPreview.classList.remove(imgUploadPreview.classList[1]);
+      imgUploadPreview.style.filter = '';
+      return;
+    } else {
+      sliderElement.classList.remove('hidden');
+    }
+
     if (imgUploadPreview.classList.length > 1) { // если модификаторов у картинки больше чем 1
       imgUploadPreview.classList.remove(imgUploadPreview.classList[1]); // то удаляем 2-й
     }
@@ -20,7 +31,7 @@ const onEffectListClick = (evt) => {
     let step;
     let start;
 
-    const maxSet = EFFECTS.forEach((element) => {
+    EFFECTS.forEach((element) => {
       if(element.effect === effectPreviewModifier) {
         min = element.min;
         max = element.max;
@@ -28,9 +39,6 @@ const onEffectListClick = (evt) => {
         start = element.start;
       }
     });
-
-    effectPreviewModifierGlobal = effectPreviewModifier;
-    // console.log(min, max, step, start);
 
     // Обновляем установки слайдера
     sliderElement.noUiSlider.updateOptions({
@@ -42,7 +50,7 @@ const onEffectListClick = (evt) => {
       start: start,
     });
   }
-  
+
 };
 // Добавляем обработчик на click по картинке
 effectsList.addEventListener('click', (evt) => onEffectListClick(evt));
@@ -60,6 +68,8 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
+sliderElement.classList.add('hidden');
+
 sliderElement.noUiSlider.on('update', () => {
   valueElement.value = sliderElement.noUiSlider.get();
   switch (effectPreviewModifierGlobal) {
@@ -70,15 +80,16 @@ sliderElement.noUiSlider.on('update', () => {
       imgUploadPreview.style.filter = `sepia(${valueElement.value})`;
       break;
     case 'effects__preview--marvin':
-      imgUploadPreview.style.filter = `invert(${valueElement.value})%`;
+      imgUploadPreview.style.filter = `invert(${valueElement.value}%)`;
       break;
     case 'effects__preview--phobos':
-      imgUploadPreview.style.filter = 'blur(' + valueElement.value + ')px';
+      imgUploadPreview.style.filter = `blur( ${ valueElement.value }px)`;
       break;
     case 'effects__preview--heat':
       imgUploadPreview.style.filter = `brightness(${valueElement.value})`;
       break;
+    // default:
+    //   imgUploadPreview.style.filter = null;
   }
-  console.log(valueElement.value)
 });
 
