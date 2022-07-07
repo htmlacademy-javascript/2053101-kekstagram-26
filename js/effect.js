@@ -4,6 +4,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
 let effectPreviewModifierGlobal;
+const valueElement = document.querySelector('.effect-level__value');
 
 // Обработчик добавляет модификатор к картинке
 const onEffectListClick = (evt) => {
@@ -56,8 +57,6 @@ const onEffectListClick = (evt) => {
 effectsList.addEventListener('click', (evt) => onEffectListClick(evt));
 
 // Создаем слайдер
-const valueElement = document.querySelector('.effect-level__value');
-
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
