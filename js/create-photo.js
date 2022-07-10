@@ -1,11 +1,11 @@
-import { createPhotoAlbum } from './create-photo-album.js';
+// import { createPhotoAlbum } from './create-photo-album.js';
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('a');
-const photoAlbum = createPhotoAlbum();
+// const photoAlbum = createPhotoAlbum();
 const photoAlbumFragment = document.createDocumentFragment();
 const picturesContainer = document.querySelector('.pictures');
 
-const createPhoto = () => {photoAlbum.forEach((element, index) => {
+const createPhoto = (photoAlbum) => {photoAlbum.forEach((element, index) => {
   const newPicture = pictureTemplate.cloneNode(true);
   newPicture.querySelector('.picture__img').src = element.url;
   newPicture.querySelector('.picture__likes').textContent = element.likes;
@@ -17,4 +17,4 @@ const createPhoto = () => {photoAlbum.forEach((element, index) => {
 picturesContainer.append(photoAlbumFragment);
 };
 
-export {createPhoto, photoAlbum};
+export {createPhoto};
