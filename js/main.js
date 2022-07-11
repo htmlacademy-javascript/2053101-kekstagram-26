@@ -1,13 +1,10 @@
-import { createBigPhoto } from './create-big-photo.js';
+import { renderBigPhoto } from './render-big-photo.js';
 import './user-modal.js';
 import './effect.js';
 import './scale.js';
+import { getData } from './api.js';
 
 // createBigPhoto();
 
-fetch('https://26.javascript.pages.academy/kekstagram/data')
-  .then((response) => response.json())
-  .then((photos) => {
-    console.log(photos);
-    createBigPhoto(photos);
-  })
+getData((photos) => renderBigPhoto(photos));
+
