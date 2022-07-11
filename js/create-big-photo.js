@@ -1,8 +1,10 @@
-import { createPhoto, photoAlbum } from './create-photo.js';
+import { renderPhotos } from './render-photos.js';
 import {isEsc, createNewElement} from './util.js';
 
-const createBigPhoto = () => {
-  createPhoto();
+const picturesSection = document.querySelector('.pictures');
+
+const createBigPhoto = (photos) => {
+  renderPhotos(photos);
 
   const bigPicture = document.querySelector('.big-picture');
   const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
@@ -42,8 +44,6 @@ const createBigPhoto = () => {
 
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
 
-  const picturesSection = document.querySelector('.pictures');
-
   // Добавляем делегирование на контейнер картинок
   picturesSection.addEventListener('click', (evt) => {
     const currentElement = evt.target; // Объект, на который кликнули
@@ -57,7 +57,7 @@ const createBigPhoto = () => {
       socialComments.textContent = ''; // Очистили шаблонные комментарии
 
       // Находим объект по index, чтобы создать комментарии, описание и т.д. к картинке
-      photoAlbum.forEach((item, index) => {
+      photos.forEach((item, index) => {
         if(index === currentIndex) {
           item.comments.forEach((comment) => {
             const socialComment = createNewElement('li','social__comment');
