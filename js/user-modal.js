@@ -1,11 +1,16 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
-import { MAX_HASHTAGS } from './data.js';
+import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadFileClose = document.querySelector('#upload-cancel');
+const imgUploadForm = document.querySelector('.img-upload__form');
+const textDescription = document.querySelector('.text__description');
+const hashtagInput = document.querySelector('.text__hashtags');
+const uploadButton = document.querySelector('.img-upload__submit');
 
+// Обработчик на esc
 const modalEscKeydownHandler = (evt) => {
   if(isEsc(evt)) {
     const activeElementClassName = document.activeElement.className;
@@ -34,8 +39,6 @@ uploadFile.addEventListener('change', () => openModal());
 uploadFileClose.addEventListener('click', () => closeModal());
 
 // Настройка pristine
-const imgUploadForm = document.querySelector('.img-upload__form');
-
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--invalid',
@@ -46,7 +49,6 @@ const pristine = new Pristine(imgUploadForm, {
 });
 
 // Валидация хэштегов
-const hashtagInput = document.querySelector('.text__hashtags');
 const hashtags = (value) => value.toLowerCase().split(' ');
 
 pristine.addValidator(hashtagInput,
@@ -75,24 +77,41 @@ pristine.addValidator(hashtagInput,
 );
 
 // Валидация комментариев
-const textDescription = document.querySelector('.text__description');
-
 pristine.addValidator(textDescription,
-  (value) => checkStringLength(value, 140),
-  // 'Количество символов в комментарии должно быть не более 140'
+  (value) => checkStringLength(value, MAX_SYMBOLS),
 );
 
-const uploadButton = document.querySelector('.img-upload__submit');
-
-const inputHashtagDescriptionHandler = (evt) => {
+// Обработчик на блокировку/разблокировку кнопки отправки формы
+// при вводе данных в хештег и описание
+const onInputHashtagDescription = () => {
   const isValid = pristine.validate();
   if(!isValid) {
-    evt.preventDefault();
     uploadButton.disabled = true;
   } else {
     uploadButton.disabled = false;
   }
 };
 
-hashtagInput.addEventListener('input', inputHashtagDescriptionHandler);
-textDescription.addEventListener('input', inputHashtagDescriptionHandler);
+hashtagInput.addEventListener('input', onInputHashtagDescription);
+
+textDescription.addEventListener('input', onInputHashtagDescription);
+
+const setImgFormSubmit = (onSuccess) => {
+// Обработчик на отправку данных формы
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    fetch(
+      'https://26.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    )
+      .then(() => onSuccess());
+
+  });
+};
+
+export { closeModal, setImgFormSubmit };

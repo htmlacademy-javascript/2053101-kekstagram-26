@@ -48,19 +48,6 @@ const renderBigPhoto = (photos) => {
   };
 
   // Функция отрисовывает комментарии к большой фотографии
-  const renderComments = (commentsAmount) => {
-    for(let i = 0; i < socialCommentCountValue(commentsAmount); i++) { // В условии кол-во отображаемых комментариев (до 5-ти вкл.)
-      const socialComment = createNewElement('li','social__comment');
-      const socialPicture = createNewElement('img','social__picture');
-      socialPicture.src = item.comments[i].avatar;
-      socialPicture.alt = item.comments[i].name;
-      socialPicture.width = '35';
-      socialPicture.height = '35';
-      const socialText = createNewElement('p', 'social__text', item.comments[i].message);
-      socialComment.append(socialPicture);
-      socialComment.append(socialText);
-      socialComments.append(socialComment);
-  }
 
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
 
