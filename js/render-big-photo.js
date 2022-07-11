@@ -1,5 +1,6 @@
 import { renderPhotos } from './render-photos.js';
 import {isEsc, createNewElement} from './util.js';
+import { SOCIAL_COMMENT_COUNT } from './data.js';
 
 const picturesSection = document.querySelector('.pictures');
 
@@ -10,7 +11,6 @@ const renderBigPhoto = (photos) => {
   const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
   const bigPictureCloseButton = bigPicture.querySelector('.big-picture__cancel');
   const likesCount = document.querySelector('.likes-count');
-  const commentsCount = document.querySelector('.comments-count');
   const socialComments = document.querySelector('.social__comments');
   const socialCaptions = document.querySelector('.social__caption');
 
@@ -25,9 +25,9 @@ const renderBigPhoto = (photos) => {
   // Функция открытия большой картинки
   function openBigPicture () {
     bigPicture.classList.remove('hidden');
-    const socialCommentCount = document.querySelector('.social__comment-count');
+
     const commentsLoader = document.querySelector('.comments-loader');
-    socialCommentCount.classList.add('hidden');
+
     commentsLoader.classList.add('hidden');
     document.body.classList.add('modal-open');
     // Добавляем обработчик esc
@@ -50,27 +50,44 @@ const renderBigPhoto = (photos) => {
 
     if(currentElement.classList.contains('picture__img')) {
 
+      const socialCommentCount = document.querySelector('.social__comment-count'); // Контейнер для кол-ва комментариев
       const currentIndex = Number(currentElement.closest('a').dataset.index); // Текущий индекс элемента из data-атрибута
+      const likesCountNumber = currentElement.closest('a').querySelector('.picture__likes').textContent; // Кол-во лайков
+      const commentsCountAmount = currentElement.closest('a').querySelector('.picture__comments').textContent; // Кол-во комментариев всего
+      const commentsCount = document.querySelector('.comments-count');
+
+      // Кол-во комментариев в preview
+      const socialCommentCountValue = (comments) => {
+        if(comments > SOCIAL_COMMENT_COUNT) {
+          return SOCIAL_COMMENT_COUNT;
+        }
+        return comments;
+      };
+
       bigPictureImg.src = currentElement.src;
-      likesCount.textContent = currentElement.closest('a').querySelector('.picture__likes').textContent;
-      commentsCount.textContent = currentElement.closest('a').querySelector('.picture__comments').textContent;
+      likesCount.textContent = likesCountNumber;
+      commentsCount.textContent = commentsCountAmount;
+
+      socialCommentCount.textContent = `${ socialCommentCountValue(commentsCountAmount) } из `;
+      socialCommentCount.append(commentsCount);
+
       socialComments.textContent = ''; // Очистили шаблонные комментарии
 
       // Находим объект по index, чтобы создать комментарии, описание и т.д. к картинке
       photos.forEach((item, index) => {
         if(index === currentIndex) {
-          item.comments.forEach((comment) => {
+          for(let i = 0; i < socialCommentCountValue(commentsCountAmount); i++) {
             const socialComment = createNewElement('li','social__comment');
             const socialPicture = createNewElement('img','social__picture');
-            socialPicture.src = comment.avatar;
-            socialPicture.alt = comment.name;
+            socialPicture.src = item.comments[i].avatar;
+            socialPicture.alt = item.comments[i].name;
             socialPicture.width = '35';
             socialPicture.height = '35';
-            const socialText = createNewElement('p', 'social__text', comment.message);
+            const socialText = createNewElement('p', 'social__text', item.comments[i].message);
             socialComment.append(socialPicture);
             socialComment.append(socialText);
             socialComments.append(socialComment);
-          });
+          }
           socialCaptions.textContent = item.description;
         }
       });

@@ -4,6 +4,8 @@ const NUMBER_ID_PHOTOS = 25;
 const MAX_SYMBOLS = 140;
 // Максимальное количество хештегов
 const MAX_HASHTAGS = 5;
+// Количество отображаемых комментариев при отрисовке большого фото
+const SOCIAL_COMMENT_COUNT = 5;
 
 // Описания фотографий
 const DESCRIPTIONS = [
@@ -103,5 +105,5 @@ const EFFECTS = [
 const SCALE_STEP = 25;
 const  SCALE_MAX = 100;
 
-export {DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS, MAX_SYMBOLS, MAX_HASHTAGS,
-  EFFECTS, SCALE_STEP, SCALE_MAX};
+export { DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS, MAX_SYMBOLS, MAX_HASHTAGS,
+  EFFECTS, SCALE_STEP, SCALE_MAX, SOCIAL_COMMENT_COUNT };
