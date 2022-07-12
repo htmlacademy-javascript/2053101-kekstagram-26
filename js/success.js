@@ -15,7 +15,7 @@ const onDocumentEscKeydown = (evt) => {
 
 // Обработчик на не по форме на click
 const onNotNewSuccess = (evt) => {
-  if(evt.target.className ===  'success') {
+  if(evt.target ===  newSuccess) {
     closeSuccessModal();
   }
 };
@@ -24,14 +24,12 @@ function openSuccessModal() {
   document.body.append(newSuccess);
   successButton.addEventListener('click', closeSuccessModal);
   document.addEventListener('keydown', onDocumentEscKeydown);
-  document.addEventListener('click', onNotNewSuccess);
+  newSuccess.addEventListener('click', onNotNewSuccess);
 }
 
 function closeSuccessModal() {
   newSuccess.remove();
   document.removeEventListener('keydown', onDocumentEscKeydown);
-  // Удалить обработчик на клик не по форме
 }
 
-
-export { openSuccessModal, closeSuccessModal };
+export { openSuccessModal };
