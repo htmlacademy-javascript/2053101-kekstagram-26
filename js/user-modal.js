@@ -1,7 +1,7 @@
 import { isEsc, testUnique, checkStringLength, showAlert } from './util.js';
 import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
 import { closeSliderElement } from './effect.js';
-import { openSuccessModal } from './success.js';
+import { openErrorModal } from './error.js';
 import { sendData } from './api.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
@@ -107,7 +107,7 @@ const setImgFormSubmit = (onSuccess) => {
     evt.preventDefault();
     // const formData = new FormData(evt.target);
 
-    sendData(onSuccess, showAlert, new FormData(evt.target));
+    sendData(onSuccess, openErrorModal, new FormData(evt.target));
 
   });
 };
