@@ -1,7 +1,8 @@
-import { isEsc, testUnique, checkStringLength } from './util.js';
+import { isEsc, testUnique, checkStringLength, showAlert } from './util.js';
 import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
 import { closeSliderElement } from './effect.js';
 import { openSuccessModal } from './success.js';
+import { sendData } from './api.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
@@ -104,17 +105,9 @@ const setImgFormSubmit = (onSuccess) => {
 // Обработчик на отправку данных формы
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
+    // const formData = new FormData(evt.target);
 
-    fetch(
-      'https://26.javascript.pages.academy/kekstagram',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then(() => onSuccess())
-      .then(() => openSuccessModal());
+    sendData(onSuccess, showAlert, new FormData(evt.target));
 
   });
 };
