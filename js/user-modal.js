@@ -1,5 +1,6 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
 import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
+import { destroySliderElement } from './effect.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
@@ -11,7 +12,7 @@ const hashtagInput = document.querySelector('.text__hashtags');
 const uploadButton = document.querySelector('.img-upload__submit');
 
 // Обработчик на esc
-const modalEscKeydownHandler = (evt) => {
+const onEscKeydown = (evt) => {
   if(isEsc(evt)) {
     const activeElementClassName = document.activeElement.className;
     if(activeElementClassName !== 'text__hashtags' && activeElementClassName !== 'text__description'){
@@ -24,14 +25,15 @@ const modalEscKeydownHandler = (evt) => {
 function openModal() {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', modalEscKeydownHandler);
+  document.addEventListener('keydown', onEscKeydown);
 }
 
 function closeModal() {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', modalEscKeydownHandler);
+  document.removeEventListener('keydown', onEscKeydown);
   uploadImageForm.reset();
+  destroySliderElement();
 }
 
 uploadFile.addEventListener('change', () => openModal());
