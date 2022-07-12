@@ -102,4 +102,4 @@ effectsList.addEventListener('click', (evt) => onEffectListClick(evt));
 
 sliderElement.classList.add('hidden');
 
-export { closeSliderElement as destroySliderElement };
+export { closeSliderElement };

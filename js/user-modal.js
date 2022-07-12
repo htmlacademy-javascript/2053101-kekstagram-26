@@ -1,6 +1,6 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
 import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
-import { destroySliderElement } from './effect.js';
+import { closeSliderElement } from './effect.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
@@ -10,6 +10,7 @@ const imgUploadForm = document.querySelector('.img-upload__form');
 const textDescription = document.querySelector('.text__description');
 const hashtagInput = document.querySelector('.text__hashtags');
 const uploadButton = document.querySelector('.img-upload__submit');
+
 
 // Обработчик на esc
 const onEscKeydown = (evt) => {
@@ -33,7 +34,7 @@ function closeModal() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeydown);
   uploadImageForm.reset();
-  destroySliderElement();
+  closeSliderElement();
 }
 
 uploadFile.addEventListener('change', () => openModal());
@@ -111,7 +112,8 @@ const setImgFormSubmit = (onSuccess) => {
         body: formData,
       },
     )
-      .then(() => onSuccess());
+      .then(() => onSuccess())
+      .then(() => console.log('success'));
 
   });
 };
