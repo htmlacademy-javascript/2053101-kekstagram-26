@@ -1,6 +1,7 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
 import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
 import { closeSliderElement } from './effect.js';
+import { openSuccessModal } from './success.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
@@ -113,7 +114,7 @@ const setImgFormSubmit = (onSuccess) => {
       },
     )
       .then(() => onSuccess())
-      .then(() => console.log('success'));
+      .then(() => openSuccessModal());
 
   });
 };
