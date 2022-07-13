@@ -9,4 +9,4 @@ import { closeModal, setImgFormSubmit } from './user-modal.js';
 
 getData((photos) => renderBigPhoto(photos));
 
-setImgFormSubmit(closeModal);
+setImgFormSubmit();

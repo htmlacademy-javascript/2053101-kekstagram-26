@@ -1,6 +1,7 @@
-import { isEsc, testUnique, checkStringLength, showAlert } from './util.js';
+import { isEsc, testUnique, checkStringLength } from './util.js';
 import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
 import { closeSliderElement } from './effect.js';
+import { openSuccessModal } from './success.js';
 import { openErrorModal } from './error.js';
 import { sendData } from './api.js';
 
@@ -101,13 +102,12 @@ hashtagInput.addEventListener('input', onInputHashtagDescription);
 
 textDescription.addEventListener('input', onInputHashtagDescription);
 
-const setImgFormSubmit = (onSuccess) => {
 // Обработчик на отправку данных формы
+const setImgFormSubmit = () => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    // const formData = new FormData(evt.target);
 
-    sendData(onSuccess, openErrorModal, new FormData(evt.target));
+    sendData(openSuccessModal, openErrorModal, new FormData(evt.target));
 
   });
 };

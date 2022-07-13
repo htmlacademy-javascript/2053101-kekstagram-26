@@ -1,5 +1,5 @@
 import { showAlert } from './util.js';
-import { openSuccessModal } from './success.js';
+import { closeModal } from './user-modal.js';
 
 const getData = (onSuccess) => {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
@@ -18,7 +18,7 @@ const getData = (onSuccess) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/kekstagram',
+    'https://26.javascript.pages.academy/kekstagram1',
     {
       method: 'POST',
       body: body,
@@ -26,14 +26,18 @@ const sendData = (onSuccess, onFail, body) => {
   )
     .then((response) => {
       if(response.ok) {
+        closeModal();
         onSuccess();
-        openSuccessModal();
       } else {
-        showAlert('Не удалось отправить форму');
+        closeModal();
+        onFail();
+        // showAlert('Не удалось отправить форму');
+        // onFail();
       }
     })
     .catch(() => {
-      onFail('onfail');
+      closeModal();
+      onFail();
     });
 
 };
