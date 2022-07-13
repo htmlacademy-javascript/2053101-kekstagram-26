@@ -11,7 +11,7 @@ const socialComments = document.querySelector('.social__comments');
 const socialCaptions = document.querySelector('.social__caption');
 const socialCommentCount = document.querySelector('.social__comment-count'); // Контейнер для кол-ва комментариев
 const commentsCount = document.querySelector('.comments-count');
-const commentsLoader = document.querySelector('.comments-loader');
+
 
 const renderBigPhoto = (photos) => {
 
