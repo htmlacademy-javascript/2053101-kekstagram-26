@@ -19,7 +19,9 @@ const uploadButton = document.querySelector('.img-upload__submit');
 const onEscKeydown = (evt) => {
   if(isEsc(evt)) {
     const activeElementClassName = document.activeElement.className;
-    if(activeElementClassName !== 'text__hashtags' && activeElementClassName !== 'text__description'){
+    if(activeElementClassName !== 'text__hashtags' &&
+    activeElementClassName !== 'text__description' &&
+    document.body.lastChild.className !== 'error'){ // Проверка на наличие ошибки при отправке фото
       evt.preventDefault();
       closeModal();
     }

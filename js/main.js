@@ -3,9 +3,7 @@ import './user-modal.js';
 import './effect.js';
 import './scale.js';
 import { getData } from './api.js';
-import { closeModal, setImgFormSubmit } from './user-modal.js';
-
-// createBigPhoto();
+import { setImgFormSubmit } from './user-modal.js';
 
 getData((photos) => renderBigPhoto(photos));
 

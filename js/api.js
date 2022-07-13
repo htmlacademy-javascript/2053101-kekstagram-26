@@ -18,7 +18,7 @@ const getData = (onSuccess) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/kekstagram1',
+    'https://26.javascript.pages.academy/kekstagram',
     {
       method: 'POST',
       body: body,
@@ -29,14 +29,10 @@ const sendData = (onSuccess, onFail, body) => {
         closeModal();
         onSuccess();
       } else {
-        closeModal();
         onFail();
-        // showAlert('Не удалось отправить форму');
-        // onFail();
       }
     })
     .catch(() => {
-      closeModal();
       onFail();
     });
 
