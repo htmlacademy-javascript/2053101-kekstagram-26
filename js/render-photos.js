@@ -1,7 +1,4 @@
-// import { createPhotoAlbum } from './create-photo-album.js';
-
 const pictureTemplate = document.querySelector('#picture').content.querySelector('a');
-// const photoAlbum = createPhotoAlbum();
 const photoAlbumFragment = document.createDocumentFragment();
 const picturesContainer = document.querySelector('.pictures');
 
