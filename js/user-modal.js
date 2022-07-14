@@ -1,15 +1,27 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
-import { MAX_HASHTAGS } from './data.js';
+import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
+import { closeSliderElement } from './effect.js';
+import { openSuccessModal } from './success.js';
+import { openErrorModal } from './error.js';
+import { sendData } from './api.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadFile = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadFileClose = document.querySelector('#upload-cancel');
+const imgUploadForm = document.querySelector('.img-upload__form');
+const textDescription = document.querySelector('.text__description');
+const hashtagInput = document.querySelector('.text__hashtags');
+const uploadButton = document.querySelector('.img-upload__submit');
 
-const modalEscKeydownHandler = (evt) => {
+
+// Обработчик на esc
+const onEscKeydown = (evt) => {
   if(isEsc(evt)) {
     const activeElementClassName = document.activeElement.className;
-    if(activeElementClassName !== 'text__hashtags' && activeElementClassName !== 'text__description'){
+    if(activeElementClassName !== 'text__hashtags' &&
+    activeElementClassName !== 'text__description' &&
+    document.body.lastChild.className !== 'error'){ // Проверка на наличие ошибки при отправке фото
       evt.preventDefault();
       closeModal();
     }
@@ -19,14 +31,15 @@ const modalEscKeydownHandler = (evt) => {
 function openModal() {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', modalEscKeydownHandler);
+  document.addEventListener('keydown', onEscKeydown);
 }
 
 function closeModal() {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', modalEscKeydownHandler);
+  document.removeEventListener('keydown', onEscKeydown);
   uploadImageForm.reset();
+  closeSliderElement();
 }
 
 uploadFile.addEventListener('change', () => openModal());
@@ -34,8 +47,6 @@ uploadFile.addEventListener('change', () => openModal());
 uploadFileClose.addEventListener('click', () => closeModal());
 
 // Настройка pristine
-const imgUploadForm = document.querySelector('.img-upload__form');
-
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--invalid',
@@ -46,7 +57,6 @@ const pristine = new Pristine(imgUploadForm, {
 });
 
 // Валидация хэштегов
-const hashtagInput = document.querySelector('.text__hashtags');
 const hashtags = (value) => value.toLowerCase().split(' ');
 
 pristine.addValidator(hashtagInput,
@@ -75,24 +85,33 @@ pristine.addValidator(hashtagInput,
 );
 
 // Валидация комментариев
-const textDescription = document.querySelector('.text__description');
-
 pristine.addValidator(textDescription,
-  (value) => checkStringLength(value, 140),
-  // 'Количество символов в комментарии должно быть не более 140'
+  (value) => checkStringLength(value, MAX_SYMBOLS),
 );
 
-const uploadButton = document.querySelector('.img-upload__submit');
-
-const inputHashtagDescriptionHandler = (evt) => {
+// Обработчик на блокировку/разблокировку кнопки отправки формы
+// при вводе данных в хештег и описание
+const onInputHashtagDescription = () => {
   const isValid = pristine.validate();
   if(!isValid) {
-    evt.preventDefault();
     uploadButton.disabled = true;
   } else {
     uploadButton.disabled = false;
   }
 };
 
-hashtagInput.addEventListener('input', inputHashtagDescriptionHandler);
-textDescription.addEventListener('input', inputHashtagDescriptionHandler);
+hashtagInput.addEventListener('input', onInputHashtagDescription);
+
+textDescription.addEventListener('input', onInputHashtagDescription);
+
+// Обработчик на отправку данных формы
+const setImgFormSubmit = () => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(openSuccessModal, openErrorModal, new FormData(evt.target));
+
+  });
+};
+
+export { closeModal, setImgFormSubmit };
