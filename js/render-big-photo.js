@@ -39,15 +39,14 @@ const renderBigPhoto = (photos) => {
     document.removeEventListener('keydown', onBigPictureEscKeydown);
   }
 
-  // Кол-во комментариев в отображаемом фото
-  const socialCommentCountValue = (comments) => {
-    if(comments > SOCIAL_COMMENT_COUNT) {
+  // Функция устанавливает количество комментариев для загрузки
+  const getSocialCommentsForLoading = (pictureComments) => {
+    if(pictureComments > SOCIAL_COMMENT_COUNT) {
       return SOCIAL_COMMENT_COUNT;
     }
-    return comments;
+    return pictureComments;
   };
 
-  // Функция отрисовывает комментарии к большой фотографии
 
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
 
@@ -57,15 +56,16 @@ const renderBigPhoto = (photos) => {
 
     if(currentElement.classList.contains('picture__img')) {
       // Считываем данные из картинки, по которой кликнули
-      const currentIndex = Number(currentElement.closest('a').dataset.index); // Текущий индекс элемента из data-атрибута
-      const likesCountNumber = currentElement.closest('a').querySelector('.picture__likes').textContent; // Кол-во лайков
-      const commentsCountAmount = currentElement.closest('a').querySelector('.picture__comments').textContent; // Кол-во комментариев всего
+      const currentPicture = Number(currentElement.closest('a').dataset.index); // Текущий индекс элемента из data-атрибута
+      const pictureLikes = currentElement.closest('a').querySelector('.picture__likes').textContent; // Кол-во лайков
+      const pictureComments = currentElement.closest('a').querySelector('.picture__comments').textContent; // Кол-во комментариев всего
+      const socialCommentsForLoading = getSocialCommentsForLoading(pictureComments);
 
       // Записываем данные в большую картинку и комментарии к ней
       bigPictureImg.src = currentElement.src;
-      likesCount.textContent = likesCountNumber;
-      commentsCount.textContent = commentsCountAmount;
-      socialCommentCount.textContent = `${ socialCommentCountValue(commentsCountAmount) } из `;
+      likesCount.textContent = pictureLikes;
+      commentsCount.textContent = `${ pictureComments } комментариев`;
+      socialCommentCount.textContent = `${ socialCommentsForLoading } из `;
       socialCommentCount.append(commentsCount);
 
       // Очищаем шаблонные комментарии
@@ -73,8 +73,8 @@ const renderBigPhoto = (photos) => {
 
       // Находим объект по index, чтобы создать комментарии, описание и т.д. к большой картинке
       photos.forEach((item, index) => {
-        if(index === currentIndex) {
-          for(let i = 0; i < socialCommentCountValue(commentsCountAmount); i++) { // В условии кол-во отображаемых комментариев (до 5-ти вкл.)
+        if(index === currentPicture) {
+          for(let i = 0; i < socialCommentsForLoading; i++) {
             const socialComment = createNewElement('li','social__comment');
             const socialPicture = createNewElement('img','social__picture');
             socialPicture.src = item.comments[i].avatar;
@@ -89,6 +89,7 @@ const renderBigPhoto = (photos) => {
           socialCaptions.textContent = item.description;
         }
       });
+
       openBigPicture();
     }
   });
