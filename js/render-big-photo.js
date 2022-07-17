@@ -16,56 +16,56 @@ const commentsLoader = document.querySelector('.comments-loader');
 let socialCommentsForLoading = 5;
 
 
+// Обработчик на загрузку непоказанных комментариев
+let currentElement;
+const onCommentsLoaderClick = () => {
+  socialCommentsForLoading += SOCIAL_COMMENTS_STEP;
+  currentElement.click(); // Кликаем по текущей картинке большого фото с комментариями
+};
+
+// Функция устанавливает количество комментариев для загрузки
+// И скрывает кнопку на загрузку комментариев
+const getSocialCommentsForLoading = (pictureComments) => {
+  if(pictureComments > socialCommentsForLoading) {
+    return socialCommentsForLoading;
+  } else {
+    commentsLoader.classList.add('hidden');
+    return pictureComments;
+  }
+};
+
+// Обработчик esc
+const onBigPictureEscKeydown = (evt) => {
+  if(isEsc(evt)) {
+    evt.preventDefault();
+    closeBigPicture();
+  }
+};
+
+// Функция открытия большой картинки
+function openBigPicture () {
+  bigPicture.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  document.addEventListener('keydown', onBigPictureEscKeydown);
+  commentsLoader.addEventListener('click', onCommentsLoaderClick);
+  bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
+  
+}
+
+// Функция закрытия большой картинки
+function closeBigPicture ()  {
+  bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onBigPictureEscKeydown);
+  bigPictureCloseButton.removeEventListener('click', () => closeBigPicture());
+  commentsLoader.removeEventListener('click', onCommentsLoaderClick);
+  socialCommentsForLoading = SOCIAL_COMMENTS_STEP;
+  commentsLoader.classList.remove('hidden');
+}
+
 const renderBigPhoto = (photos) => {
 
   renderPhotos(photos);
-
-  // Обработчик на загрузку непоказанных комментариев
-  let currentElement;
-  const onCommentsLoaderClick = () => {
-    socialCommentsForLoading += SOCIAL_COMMENTS_STEP;
-    currentElement.click(); // Кликаем по текущей картинке большого фото с комментариями
-  };
-
-  // Функция устанавливает количество комментариев для загрузки
-  // И скрывает кнопку на загрузку комментариев
-  const getSocialCommentsForLoading = (pictureComments) => {
-    if(pictureComments > socialCommentsForLoading) {
-      return socialCommentsForLoading;
-    } else {
-      commentsLoader.classList.add('hidden');
-      return pictureComments;
-    }
-  };
-
-  // Обработчик esc
-  const onBigPictureEscKeydown = (evt) => {
-    if(isEsc(evt)) {
-      evt.preventDefault();
-      closeBigPicture();
-    }
-  };
-
-  // Функция открытия большой картинки
-  function openBigPicture () {
-    bigPicture.classList.remove('hidden');
-    document.body.classList.add('modal-open');
-    document.addEventListener('keydown', onBigPictureEscKeydown);
-    commentsLoader.addEventListener('click', onCommentsLoaderClick);
-  }
-
-  // Функция закрытия большой картинки
-  function closeBigPicture ()  {
-    bigPicture.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    document.removeEventListener('keydown', onBigPictureEscKeydown);
-    commentsLoader.removeEventListener('click', onCommentsLoaderClick);
-    socialCommentsForLoading = SOCIAL_COMMENTS_STEP;
-    commentsLoader.classList.remove('hidden');
-  }
-
-  bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
-
   // Функция отрисовывает большое фото и добавляет комментарии
   const onPictureClick = (evt) => {
     currentElement = evt.target; // Объект, на который кликнули

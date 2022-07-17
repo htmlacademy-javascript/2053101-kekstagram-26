@@ -14,7 +14,7 @@ function compareCommentNumbers(a, b) {
 }
 
 const setImgFilters = (photos) => {
-  
+
   imgFilters.addEventListener('click', (evt) => {
     let filteredPhotos = [];
     const choosenFilter = evt.target;
