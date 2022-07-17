@@ -7,6 +7,6 @@ import { setImgFormSubmit } from './user-modal.js';
 import { setImgFilters } from './filter.js';
 
 
-getData((photos) => setImgFilters(photos));
+getData((photos) => renderBigPhoto(photos));
 
 setImgFormSubmit();
