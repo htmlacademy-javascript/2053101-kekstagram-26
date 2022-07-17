@@ -104,7 +104,7 @@ const renderBigPhoto = (photos) => {
           socialCaptions.textContent = item.description;
         }
       });
-
+      debugger;
       openBigPicture();
     }
   };
