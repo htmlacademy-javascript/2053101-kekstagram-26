@@ -1,6 +1,7 @@
 import { renderPhotos } from './render-photos.js';
 import { isEsc, createNewElement } from './util.js';
 import { SOCIAL_COMMENTS_STEP } from './data.js';
+import './filter.js';
 
 const picturesSection = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');

@@ -11,6 +11,8 @@ const getRandomIntInclusive = (min, max) => {
   return result;
 };
 
+const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];
+
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
 const isEsc = (evt) => evt.key === 'Escape';
@@ -58,4 +60,4 @@ const showAlert = (message) => {
 };
 
 export {getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique, createNewElement,
-  showAlert};
+  showAlert, getRandomArrayElement};

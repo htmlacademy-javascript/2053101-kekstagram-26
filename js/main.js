@@ -5,6 +5,7 @@ import './scale.js';
 import { getData } from './api.js';
 import { setImgFormSubmit } from './user-modal.js';
 
+
 getData((photos) => renderBigPhoto(photos));
 
 setImgFormSubmit();

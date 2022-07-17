@@ -2,7 +2,7 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const photoAlbumFragment = document.createDocumentFragment();
 const picturesContainer = document.querySelector('.pictures');
 
-const renderPhotos = (photosData) => {photosData.forEach((element, index) => {
+const renderPhotos = (photos) => {photos.forEach((element, index) => {
   const newPicture = pictureTemplate.cloneNode(true);
   newPicture.querySelector('.picture__img').src = element.url;
   newPicture.querySelector('.picture__likes').textContent = element.likes;
