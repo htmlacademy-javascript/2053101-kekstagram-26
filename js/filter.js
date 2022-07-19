@@ -12,6 +12,7 @@ function compareCommentNumbers(a, b) {
   return b.comments.length - a.comments.length;
 }
 
+// Функция возвращает массив фото исходя из нажатой кнопки
 function getFilteredPhotos (photos, choosenFilter) {
   let filteredPhotos = [];
   return function () {
@@ -52,13 +53,13 @@ const setImgFilters = (photos) => {
       !choosenFilter.classList.contains('img-filters__button')) {
       return;
     }
-    const photosForLoading = getFilteredPhotos(photos, choosenFilter);
+    const filteredPhotos = getFilteredPhotos(photos, choosenFilter);
 
     // Отрисовываем отфильтрованные фото
-    renderPhotos(photosForLoading);
+    renderPhotos(filteredPhotos);
 
     // Обновляем данные для отрисовки комментариев отфильтрованных фото
-    renderComments(photosForLoading);
+    renderComments(filteredPhotos);
   });
 
 };

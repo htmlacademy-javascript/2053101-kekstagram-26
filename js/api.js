@@ -1,6 +1,7 @@
 import { showAlert } from './util.js';
 import { closeModal } from './user-modal.js';
 import { setImgFilters } from './filter.js';
+import { renderComments } from './render-big-photo.js';
 
 const getData = (onSuccess) => {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
@@ -12,6 +13,7 @@ const getData = (onSuccess) => {
     .then((photos) => {
       onSuccess(photos);
       setImgFilters(photos);
+      renderComments(photos);
     })
     .catch(() => {
       showAlert('Сервер не доступен');

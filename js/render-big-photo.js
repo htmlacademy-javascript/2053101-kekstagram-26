@@ -62,12 +62,11 @@ function closeBigPicture ()  {
   commentsLoader.classList.remove('hidden');
 }
 
-
-let filPhotos = [];
+// Функция возвращает отфильтрованные фото
+let photos = [];
 const renderComments = (filteredPhoto) => {
-  filPhotos = filteredPhoto;
+  photos = filteredPhoto;
 };
-
 
 // Функция отрисовывает большое фото и добавляет комментарии
 const onPictureClick = (evt) => {
@@ -90,7 +89,7 @@ const onPictureClick = (evt) => {
     socialComments.textContent = '';
 
     // Находим объект по index, чтобы создать комментарии, описание и т.д. к большой картинке
-    filPhotos.forEach((item, index) => {
+    photos.forEach((item, index) => {
       if(index === currentPictureIndex) {
         for(let i = 0; i < socialCommentsForLoadingValue; i++) {
           const socialComment = createNewElement('li','social__comment');
