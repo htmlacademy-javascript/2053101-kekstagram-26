@@ -11,23 +11,16 @@ function compareCommentNumbers(a, b) {
   return b.comments.length - a.comments.length;
 }
 
-const setImgFilters = (photos) => {
-  imgFilters.classList.remove('img-filters--inactive');
-  imgFilters.addEventListener('click', (evt) => {
-    let filteredPhotos = [];
-    const choosenFilter = evt.target;
-
-    if(choosenFilter.classList.contains('img-filters__button--active') ||
-      !choosenFilter.classList.contains('img-filters__button')) {
-      return;
-    }
-
+function getFilteredPhotos (photos, choosenFilter) {
+  let filteredPhotos = [];
+  return function () {
     switch(choosenFilter) {
       case filterDefault:
         filterDefault.classList.add('img-filters__button--active');
         filterRandom.classList.remove('img-filters__button--active');
         filterDiscussed.classList.remove('img-filters__button--active');
         filteredPhotos = photos.slice();
+        // console.log(filteredPhotos);
         break;
       case filterRandom:
         filterRandom.classList.add('img-filters__button--active');
@@ -36,15 +29,55 @@ const setImgFilters = (photos) => {
         for(let i = 0; i <= 10; i++) {
           filteredPhotos.push(getRandomArrayElement(photos));
         }
+        // console.log(filteredPhotos);
         break;
       case filterDiscussed:
         filterDiscussed.classList.add('img-filters__button--active');
         filterDefault.classList.remove('img-filters__button--active');
         filterRandom.classList.remove('img-filters__button--active');
         filteredPhotos = photos.slice().sort(compareCommentNumbers);
+        // console.log(filteredPhotos);
         break;
     }
-    renderPhotos(filteredPhotos);
+    return filteredPhotos;
+  }();
+}
+
+const setImgFilters = (photos) => {
+
+  imgFilters.classList.remove('img-filters--inactive');
+
+  imgFilters.addEventListener('click', (evt) => {
+    const choosenFilter = evt.target;
+
+    if(choosenFilter.classList.contains('img-filters__button--active') ||
+      !choosenFilter.classList.contains('img-filters__button')) {
+      return;
+    }
+
+    // switch(choosenFilter) {
+    //   case filterDefault:
+    //     filterDefault.classList.add('img-filters__button--active');
+    //     filterRandom.classList.remove('img-filters__button--active');
+    //     filterDiscussed.classList.remove('img-filters__button--active');
+    //     filteredPhotos = photos.slice();
+    //     break;
+    //   case filterRandom:
+    //     filterRandom.classList.add('img-filters__button--active');
+    //     filterDefault.classList.remove('img-filters__button--active');
+    //     filterDiscussed.classList.remove('img-filters__button--active');
+    //     for(let i = 0; i <= 10; i++) {
+    //       filteredPhotos.push(getRandomArrayElement(photos));
+    //     }
+    //     break;
+    //   case filterDiscussed:
+    //     filterDiscussed.classList.add('img-filters__button--active');
+    //     filterDefault.classList.remove('img-filters__button--active');
+    //     filterRandom.classList.remove('img-filters__button--active');
+    //     filteredPhotos = photos.slice().sort(compareCommentNumbers);
+    //     break;
+    // }
+    renderPhotos(getFilteredPhotos(photos, choosenFilter));
   });
 
 };
