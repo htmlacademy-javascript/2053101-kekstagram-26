@@ -5,7 +5,6 @@ const picturesContainer = document.querySelector('.pictures');
 const renderPhotos = (photos) => {
   // Если есть старые фото, то их удаляем
   const oldPictures = document.querySelectorAll('.picture');
-  console.log(oldPictures);
   if(oldPictures.length) {
     oldPictures.forEach((element) => {
       element.remove();

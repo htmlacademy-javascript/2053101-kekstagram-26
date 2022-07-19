@@ -1,4 +1,5 @@
 import { renderPhotos } from './render-photos.js';
+import { renderComments } from './render-big-photo.js';
 import { getRandomArrayElement } from './util.js';
 
 const imgFilters = document.querySelector('.img-filters');
@@ -20,7 +21,6 @@ function getFilteredPhotos (photos, choosenFilter) {
         filterRandom.classList.remove('img-filters__button--active');
         filterDiscussed.classList.remove('img-filters__button--active');
         filteredPhotos = photos.slice();
-        // console.log(filteredPhotos);
         break;
       case filterRandom:
         filterRandom.classList.add('img-filters__button--active');
@@ -29,14 +29,12 @@ function getFilteredPhotos (photos, choosenFilter) {
         for(let i = 0; i <= 10; i++) {
           filteredPhotos.push(getRandomArrayElement(photos));
         }
-        // console.log(filteredPhotos);
         break;
       case filterDiscussed:
         filterDiscussed.classList.add('img-filters__button--active');
         filterDefault.classList.remove('img-filters__button--active');
         filterRandom.classList.remove('img-filters__button--active');
         filteredPhotos = photos.slice().sort(compareCommentNumbers);
-        // console.log(filteredPhotos);
         break;
     }
     return filteredPhotos;
@@ -54,30 +52,13 @@ const setImgFilters = (photos) => {
       !choosenFilter.classList.contains('img-filters__button')) {
       return;
     }
+    const photosForLoading = getFilteredPhotos(photos, choosenFilter);
 
-    // switch(choosenFilter) {
-    //   case filterDefault:
-    //     filterDefault.classList.add('img-filters__button--active');
-    //     filterRandom.classList.remove('img-filters__button--active');
-    //     filterDiscussed.classList.remove('img-filters__button--active');
-    //     filteredPhotos = photos.slice();
-    //     break;
-    //   case filterRandom:
-    //     filterRandom.classList.add('img-filters__button--active');
-    //     filterDefault.classList.remove('img-filters__button--active');
-    //     filterDiscussed.classList.remove('img-filters__button--active');
-    //     for(let i = 0; i <= 10; i++) {
-    //       filteredPhotos.push(getRandomArrayElement(photos));
-    //     }
-    //     break;
-    //   case filterDiscussed:
-    //     filterDiscussed.classList.add('img-filters__button--active');
-    //     filterDefault.classList.remove('img-filters__button--active');
-    //     filterRandom.classList.remove('img-filters__button--active');
-    //     filteredPhotos = photos.slice().sort(compareCommentNumbers);
-    //     break;
-    // }
-    renderPhotos(getFilteredPhotos(photos, choosenFilter));
+    // Отрисовываем отфильтрованные фото
+    renderPhotos(photosForLoading);
+
+    // Обновляем данные для отрисовки комментариев отфильтрованных фото
+    renderComments(photosForLoading);
   });
 
 };

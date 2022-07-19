@@ -1,4 +1,3 @@
-import { renderPhotos } from './render-photos.js';
 import { isEsc, createNewElement } from './util.js';
 import { SOCIAL_COMMENTS_STEP } from './data.js';
 import './filter.js';
@@ -49,6 +48,7 @@ function openBigPicture () {
   document.addEventListener('keydown', onBigPictureEscKeydown);
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
   bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
+
 }
 
 // Функция закрытия большой картинки
@@ -62,29 +62,15 @@ function closeBigPicture ()  {
   commentsLoader.classList.remove('hidden');
 }
 
-const renderComments = (items, currentPictureIndex) => {
-  // Находим объект по index, чтобы создать комментарии, описание и т.д. к большой картинке
-  items.forEach((item, index) => {
-    if(index === currentPictureIndex) {
-      for(let i = 0; i < socialCommentsForLoadingValue; i++) {
-        const socialComment = createNewElement('li','social__comment');
-        const socialPicture = createNewElement('img','social__picture');
-        socialPicture.src = item.comments[i].avatar;
-        socialPicture.alt = item.comments[i].name;
-        socialPicture.width = '35';
-        socialPicture.height = '35';
-        const socialText = createNewElement('p', 'social__text', item.comments[i].message);
-        socialComment.append(socialPicture);
-        socialComment.append(socialText);
-        socialComments.append(socialComment);
-      }
-      socialCaptions.textContent = item.description;
-    }
-  });
+
+let filPhotos = [];
+const renderComments = (filteredPhoto) => {
+  filPhotos = filteredPhoto;
 };
 
+
 // Функция отрисовывает большое фото и добавляет комментарии
-const renderBigPhoto = (evt) => {
+const onPictureClick = (evt) => {
   currentElement = evt.target; // Объект, на который кликнули
   if(currentElement.classList.contains('picture__img')) {
     // Считываем данные из картинки, по которой кликнули
@@ -103,14 +89,32 @@ const renderBigPhoto = (evt) => {
     // Очищаем шаблонные комментарии
     socialComments.textContent = '';
 
-    renderComments(photos)
+    // Находим объект по index, чтобы создать комментарии, описание и т.д. к большой картинке
+    filPhotos.forEach((item, index) => {
+      if(index === currentPictureIndex) {
+        for(let i = 0; i < socialCommentsForLoadingValue; i++) {
+          const socialComment = createNewElement('li','social__comment');
+          const socialPicture = createNewElement('img','social__picture');
+          socialPicture.src = item.comments[i].avatar;
+          socialPicture.alt = item.comments[i].name;
+          socialPicture.width = '35';
+          socialPicture.height = '35';
+          const socialText = createNewElement('p', 'social__text', item.comments[i].message);
+          socialComment.append(socialPicture);
+          socialComment.append(socialText);
+          socialComments.append(socialComment);
+        }
+        socialCaptions.textContent = item.description;
+      }
+    });
 
     openBigPicture();
+
   }
 };
 
 // Добавляем делегирование на контейнер картинок
-picturesSection.addEventListener('click', renderBigPhoto);
+picturesSection.addEventListener('click', onPictureClick);
 
 
-export {renderBigPhoto};
+export {renderComments};
