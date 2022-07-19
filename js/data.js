@@ -6,6 +6,10 @@ const MAX_SYMBOLS = 140;
 const MAX_HASHTAGS = 5;
 // Количество отображаемых комментариев при отрисовке большого фото
 const SOCIAL_COMMENTS_STEP = 5;
+// Количество случайных фото
+const RANDOM_PHOTOS = 10;
+// Задержка для устранения дребезга (мс)
+const RERENDER_DELAY = 5000;
 
 // Описания фотографий
 const DESCRIPTIONS = [
@@ -106,4 +110,4 @@ const SCALE_STEP = 25;
 const  SCALE_MAX = 100;
 
 export { DESCRIPTIONS, MESSAGES, NAMES, NUMBER_ID_PHOTOS, MAX_SYMBOLS, MAX_HASHTAGS,
-  EFFECTS, SCALE_STEP, SCALE_MAX, SOCIAL_COMMENTS_STEP };
+  EFFECTS, SCALE_STEP, SCALE_MAX, SOCIAL_COMMENTS_STEP, RANDOM_PHOTOS, RERENDER_DELAY };

@@ -1,6 +1,8 @@
 import { renderPhotos } from './render-photos.js';
 import { renderComments } from './render-big-photo.js';
 import { getRandomArrayElement } from './util.js';
+import { RANDOM_PHOTOS, RERENDER_DELAY } from './data.js';
+import { debounce } from './util.js';
 
 const imgFilters = document.querySelector('.img-filters');
 const filterDefault = document.querySelector('#filter-default');
@@ -27,7 +29,7 @@ function getFilteredPhotos (photos, choosenFilter) {
         filterRandom.classList.add('img-filters__button--active');
         filterDefault.classList.remove('img-filters__button--active');
         filterDiscussed.classList.remove('img-filters__button--active');
-        for(let i = 0; i <= 10; i++) {
+        for(let i = 0; i <= RANDOM_PHOTOS; i++) {
           filteredPhotos.push(getRandomArrayElement(photos));
         }
         break;
@@ -54,9 +56,9 @@ const setImgFilters = (photos) => {
       return;
     }
     const filteredPhotos = getFilteredPhotos(photos, choosenFilter);
-
+debugger;
     // Отрисовываем отфильтрованные фото
-    renderPhotos(filteredPhotos);
+    debounce(renderPhotos(filteredPhotos), RERENDER_DELAY);
 
     // Обновляем данные для отрисовки комментариев отфильтрованных фото
     renderComments(filteredPhotos);
