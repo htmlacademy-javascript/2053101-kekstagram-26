@@ -20,7 +20,7 @@ const renderPhotos = (photos) => {
     // Добавляем data-атрибут картинке
     newPicture.dataset.index = index;
     photoAlbumFragment.append(newPicture);
-  });debugger;
+  });
   picturesContainer.append(photoAlbumFragment);
 };
 

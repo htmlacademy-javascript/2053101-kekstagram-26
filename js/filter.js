@@ -1,4 +1,4 @@
-import { renderBigPhoto } from './render-big-photo.js';
+import { renderPhotos } from './render-photos.js';
 import { getRandomArrayElement } from './util.js';
 
 const imgFilters = document.querySelector('.img-filters');
@@ -44,7 +44,7 @@ const setImgFilters = (photos) => {
         filteredPhotos = photos.slice().sort(compareCommentNumbers);
         break;
     }
-    renderBigPhoto(filteredPhotos);
+    renderPhotos(filteredPhotos);
   });
 
 };
