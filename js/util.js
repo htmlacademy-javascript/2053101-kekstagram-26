@@ -1,4 +1,4 @@
-const ALERT_SHOW_TIME = 5000;
+import { ALERT_SHOW_TIME } from './data.js';
 
 // Источник функции https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 const getRandomIntInclusive = (min, max) => {
@@ -10,6 +10,8 @@ const getRandomIntInclusive = (min, max) => {
       Math.floor(Math.random() * (max - min + 1) + min);
   return result;
 };
+
+const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length - 1)];
 
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
@@ -57,5 +59,23 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique, createNewElement,
-  showAlert};
+function debounce (callback, timeoutDelay = 500) {
+  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
+  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
+  let timeoutId;
+
+  return (...rest) => {
+    // Перед каждым новым вызовом удаляем предыдущий таймаут,
+    // чтобы они не накапливались
+    clearTimeout(timeoutId);
+
+    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+
+    // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
+    // пока действие совершается чаще, чем переданная задержка timeoutDelay
+  };
+}
+
+export { getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique, createNewElement,
+  showAlert, getRandomArrayElement, debounce };
