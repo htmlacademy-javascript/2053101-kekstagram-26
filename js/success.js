@@ -5,16 +5,16 @@ const newSuccess = successTemplate.cloneNode(true);
 const successButton = newSuccess.querySelector('.success__button');
 
 
-// Обработчик на document на esc keydown
-const onDocumentEscKeydown = (evt) => {
+// Обработчик на esc keydown
+const onSuccessModalEscKeydown = (evt) => {
   if(isEsc(evt)) {
     evt.preventDefault();
     closeSuccessModal();
   }
 };
 
-// Обработчик на не по форме на click
-const onNotNewSuccess = (evt) => {
+// Обработчик на click вне формы
+const onOutOfSuccessModal = (evt) => {
   if(evt.target ===  newSuccess) {
     closeSuccessModal();
   }
@@ -23,13 +23,13 @@ const onNotNewSuccess = (evt) => {
 function openSuccessModal() {
   document.body.append(newSuccess);
   successButton.addEventListener('click', closeSuccessModal);
-  document.addEventListener('keydown', onDocumentEscKeydown);
-  newSuccess.addEventListener('click', onNotNewSuccess);
+  document.addEventListener('keydown', onSuccessModalEscKeydown);
+  newSuccess.addEventListener('click', onOutOfSuccessModal);
 }
 
 function closeSuccessModal() {
   newSuccess.remove();
-  document.removeEventListener('keydown', onDocumentEscKeydown);
+  document.removeEventListener('keydown', onSuccessModalEscKeydown);
 }
 
 export { openSuccessModal };

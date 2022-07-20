@@ -16,7 +16,7 @@ const uploadButton = document.querySelector('.img-upload__submit');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
 
 // Обработчик на esc
-const onEscKeydown = (evt) => {
+const onModalEscKeydown = (evt) => {
   if(isEsc(evt)) {
     const activeElementClassName = document.activeElement.className;
     if(activeElementClassName !== 'text__hashtags' &&
@@ -31,13 +31,13 @@ const onEscKeydown = (evt) => {
 function openModal() {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onEscKeydown);
+  document.addEventListener('keydown', onModalEscKeydown);
 }
 
 function closeModal() {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onEscKeydown);
+  document.removeEventListener('keydown', onModalEscKeydown);
   uploadImageForm.reset();
   closeSliderElement();
 }
@@ -100,7 +100,7 @@ pristine.addValidator(textDescription,
 
 // Обработчик на блокировку/разблокировку кнопки отправки формы
 // при вводе данных в хештег и описание
-const onInputHashtagDescription = () => {
+const onInputHashtagAndDescription = () => {
   const isValid = pristine.validate();
   if(!isValid) {
     uploadButton.disabled = true;
@@ -109,9 +109,9 @@ const onInputHashtagDescription = () => {
   }
 };
 
-hashtagInput.addEventListener('input', onInputHashtagDescription);
+hashtagInput.addEventListener('input', onInputHashtagAndDescription);
 
-textDescription.addEventListener('input', onInputHashtagDescription);
+textDescription.addEventListener('input', onInputHashtagAndDescription);
 
 // Обработчик на отправку данных формы
 const setImgFormSubmit = () => {

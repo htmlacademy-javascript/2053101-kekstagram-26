@@ -5,16 +5,16 @@ const newError = errorTemplate.cloneNode(true);
 const errorButton = newError.querySelector('.error__button');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 
-// Обработчик на document на esc keydown
-const onDocumentEscKeydown = (evt) => {
+// Обработчик на esc keydown
+const onErrorModalEscKeydown = (evt) => {
   if(isEsc(evt)) {
     evt.preventDefault();
     closeErrorModal();
   }
 };
 
-// Обработчик на не по форме на click
-const onNotNewError = (evt) => {
+// Обработчик на click вне формы
+const onOutOfErrorModal = (evt) => {
   if(evt.target ===  newError) {
     closeErrorModal();
   }
@@ -23,15 +23,15 @@ const onNotNewError = (evt) => {
 function openErrorModal() {
   document.body.append(newError);
   errorButton.addEventListener('click', closeErrorModal);
-  document.addEventListener('keydown', onDocumentEscKeydown);
-  newError.addEventListener('click', onNotNewError);
+  document.addEventListener('keydown', onErrorModalEscKeydown);
+  newError.addEventListener('click', onOutOfErrorModal);
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.add('modal-open');
 }
 
 function closeErrorModal() {
   newError.remove();
-  document.removeEventListener('keydown', onDocumentEscKeydown);
+  document.removeEventListener('keydown', onErrorModalEscKeydown);
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.remove('modal-open');
 

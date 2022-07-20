@@ -26,7 +26,7 @@ const closeSliderElement = () => {
 
 // Обработчик на изменение ползунка слайдера
 // применяет выбранный эффект к фото
-const onUpdateSliderElement = (effectPreviewModifier) => {
+const onSliderElementUpdate = (effectPreviewModifier) => {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     switch (effectPreviewModifier) {
@@ -92,7 +92,7 @@ const onEffectListClick = (evt) => {
       start: start,
     });
 
-    onUpdateSliderElement(effectPreviewModifier);
+    onSliderElementUpdate(effectPreviewModifier);
 
   }
 };
