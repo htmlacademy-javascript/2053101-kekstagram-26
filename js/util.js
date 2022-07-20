@@ -1,4 +1,4 @@
-const ALERT_SHOW_TIME = 5000;
+import { ALERT_SHOW_TIME } from './data.js';
 
 // Источник функции https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 const getRandomIntInclusive = (min, max) => {
@@ -77,26 +77,5 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-function throttle (callback, delayBetweenFrames) {
-  // Используем замыкания, чтобы время "последнего кадра" навсегда приклеилось
-  // к возвращаемой функции с условием, тогда мы его сможем перезаписывать
-  let lastTime = 0;
-
-  return (...rest) => {
-    // Получаем текущую дату в миллисекундах,
-    // чтобы можно было в дальнейшем
-    // вычислять разницу между кадрами
-    const now = new Date();
-
-    // Если время между кадрами больше задержки,
-    // вызываем наш колбэк и перезаписываем lastTime
-    // временем "последнего кадра"
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-}
-
-export {getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique, createNewElement,
-  showAlert, getRandomArrayElement, debounce, throttle};
+export { getRandomIntInclusive, checkStringLength, isEsc, isEnter, testUnique, createNewElement,
+  showAlert, getRandomArrayElement, debounce };
