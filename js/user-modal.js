@@ -1,5 +1,5 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
-import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
+import { MAX_HASHTAGS, MAX_SYMBOLS, FILE_TYPES } from './data.js';
 import { closeSliderElement } from './effect.js';
 import { openSuccessModal } from './success.js';
 import { openErrorModal } from './error.js';
@@ -13,7 +13,7 @@ const imgUploadForm = document.querySelector('.img-upload__form');
 const textDescription = document.querySelector('.text__description');
 const hashtagInput = document.querySelector('.text__hashtags');
 const uploadButton = document.querySelector('.img-upload__submit');
-
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
 
 // Обработчик на esc
 const onEscKeydown = (evt) => {
@@ -42,7 +42,16 @@ function closeModal() {
   closeSliderElement();
 }
 
-uploadFile.addEventListener('change', () => openModal());
+uploadFile.addEventListener('change', () => {
+  openModal();
+  const file = uploadFile.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((element) => fileName.endsWith(element));
+  if (matches) {
+    imgUploadPreview.src = URL.createObjectURL(file);
+  }
+});
 
 uploadFileClose.addEventListener('click', () => closeModal());
 
