@@ -9,7 +9,7 @@ const SOCIAL_COMMENTS_STEP = 5;
 // Количество случайных фото
 const RANDOM_PHOTOS = 10;
 // Задержка для устранения дребезга (мс)
-const RERENDER_DELAY = 5000;
+const RERENDER_DELAY = 500;
 
 // Описания фотографий
 const DESCRIPTIONS = [

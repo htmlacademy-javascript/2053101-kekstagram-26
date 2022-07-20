@@ -56,9 +56,9 @@ const setImgFilters = (photos) => {
       return;
     }
     const filteredPhotos = getFilteredPhotos(photos, choosenFilter);
-debugger;
+
     // Отрисовываем отфильтрованные фото
-    debounce(renderPhotos(filteredPhotos), RERENDER_DELAY);
+    debounce(() => renderPhotos(filteredPhotos), RERENDER_DELAY)();
 
     // Обновляем данные для отрисовки комментариев отфильтрованных фото
     renderComments(filteredPhotos);
