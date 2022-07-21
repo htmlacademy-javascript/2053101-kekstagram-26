@@ -5,6 +5,7 @@ import { openSuccessModal } from './success.js';
 import { openErrorModal } from './error.js';
 import { sendData } from './api.js';
 
+
 const uploadImageFormElement = document.querySelector('#upload-select-image');
 const uploadFileElement = document.querySelector('#upload-file');
 const imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
@@ -31,7 +32,8 @@ const onModalEscKeydown = (evt) => {
 function openModal() {
   imgUploadOverlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onModalEscKeydown);
+  document.addEventListener('keydown', onModalEscKeydown);debugger;
+  
 }
 
 function closeModal() {
@@ -39,7 +41,8 @@ function closeModal() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalEscKeydown);
   uploadImageFormElement.reset();
-  closeSliderElement();
+  closeSliderElement();debugger;
+  imgUploadPreviewElement.style.transform = '';
 }
 
 uploadFileElement.addEventListener('change', () => {
