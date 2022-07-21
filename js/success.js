@@ -1,8 +1,8 @@
 import { isEsc } from './util.js';
 
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const newSuccess = successTemplate.cloneNode(true);
-const successButton = newSuccess.querySelector('.success__button');
+const successTemplateElement = document.querySelector('#success').content.querySelector('.success');
+const newSuccessElement = successTemplateElement.cloneNode(true);
+const successButtonElement = newSuccessElement.querySelector('.success__button');
 
 
 // Обработчик на esc keydown
@@ -15,20 +15,20 @@ const onSuccessModalEscKeydown = (evt) => {
 
 // Обработчик на click вне формы
 const onOutOfSuccessModal = (evt) => {
-  if(evt.target ===  newSuccess) {
+  if(evt.target ===  newSuccessElement) {
     closeSuccessModal();
   }
 };
 
 function openSuccessModal() {
-  document.body.append(newSuccess);
-  successButton.addEventListener('click', closeSuccessModal);
+  document.body.append(newSuccessElement);
+  successButtonElement.addEventListener('click', closeSuccessModal);
   document.addEventListener('keydown', onSuccessModalEscKeydown);
-  newSuccess.addEventListener('click', onOutOfSuccessModal);
+  newSuccessElement.addEventListener('click', onOutOfSuccessModal);
 }
 
 function closeSuccessModal() {
-  newSuccess.remove();
+  newSuccessElement.remove();
   document.removeEventListener('keydown', onSuccessModalEscKeydown);
 }
 

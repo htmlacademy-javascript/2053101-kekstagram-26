@@ -1,9 +1,9 @@
 import { isEsc } from './util.js';
 
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const newError = errorTemplate.cloneNode(true);
-const errorButton = newError.querySelector('.error__button');
-const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
+const newErrorElement = errorTemplateElement.cloneNode(true);
+const errorButtonElement = newErrorElement.querySelector('.error__button');
+const imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
 
 // Обработчик на esc keydown
 const onErrorModalEscKeydown = (evt) => {
@@ -15,24 +15,24 @@ const onErrorModalEscKeydown = (evt) => {
 
 // Обработчик на click вне формы
 const onOutOfErrorModal = (evt) => {
-  if(evt.target ===  newError) {
+  if(evt.target ===  newErrorElement) {
     closeErrorModal();
   }
 };
 
 function openErrorModal() {
-  document.body.append(newError);
-  errorButton.addEventListener('click', closeErrorModal);
+  document.body.append(newErrorElement);
+  errorButtonElement.addEventListener('click', closeErrorModal);
   document.addEventListener('keydown', onErrorModalEscKeydown);
-  newError.addEventListener('click', onOutOfErrorModal);
-  imgUploadOverlay.classList.add('hidden');
+  newErrorElement.addEventListener('click', onOutOfErrorModal);
+  imgUploadOverlayElement.classList.add('hidden');
   document.body.classList.add('modal-open');
 }
 
 function closeErrorModal() {
-  newError.remove();
+  newErrorElement.remove();
   document.removeEventListener('keydown', onErrorModalEscKeydown);
-  imgUploadOverlay.classList.remove('hidden');
+  imgUploadOverlayElement.classList.remove('hidden');
   document.body.classList.remove('modal-open');
 
 }
