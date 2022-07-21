@@ -11,13 +11,13 @@ const renderPhotos = (photos) => {
     }
     );
   }
-  photos.forEach((element, index) => {
+  photos.forEach((photo, photoIndex) => {
     const newPictureElement = pictureTemplateElement.cloneNode(true);
-    newPictureElement.querySelector('.picture__img').src = element.url;
-    newPictureElement.querySelector('.picture__likes').textContent = element.likes;
-    newPictureElement.querySelector('.picture__comments').textContent = element.comments.length;
+    newPictureElement.querySelector('.picture__img').src = photo.url;
+    newPictureElement.querySelector('.picture__likes').textContent = photo.likes;
+    newPictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
     // Добавляем data-атрибут картинке
-    newPictureElement.dataset.index = index;
+    newPictureElement.dataset.index = photoIndex;
     photoAlbumFragment.append(newPictureElement);
   });
   picturesContainerElement.append(photoAlbumFragment);

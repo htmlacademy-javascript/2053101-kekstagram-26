@@ -64,8 +64,8 @@ function closeBigPicture ()  {
 
 // Функция возвращает отфильтрованные фото
 let photos = [];
-const renderComments = (filteredPhoto) => {
-  photos = filteredPhoto;
+const renderComments = (filteredPhotos) => {
+  photos = filteredPhotos;
 };
 
 // Функция отрисовывает большое фото и добавляет комментарии
@@ -89,21 +89,21 @@ const onPictureClick = (evt) => {
     socialCommentsElement.textContent = '';
 
     // Находим объект по index, чтобы создать комментарии, описание и т.д. к большой картинке
-    photos.forEach((item, index) => {
-      if(index === currentPictureIndex) {
+    photos.forEach((photo, photoIndex) => {
+      if(photoIndex === currentPictureIndex) {
         for(let i = 0; i < socialCommentsForLoadingValue; i++) {
           const socialComment = createNewElement('li','social__comment');
           const socialPicture = createNewElement('img','social__picture');
-          socialPicture.src = item.comments[i].avatar;
-          socialPicture.alt = item.comments[i].name;
+          socialPicture.src = photo.comments[i].avatar;
+          socialPicture.alt = photo.comments[i].name;
           socialPicture.width = '35';
           socialPicture.height = '35';
-          const socialText = createNewElement('p', 'social__text', item.comments[i].message);
+          const socialText = createNewElement('p', 'social__text', photo.comments[i].message);
           socialComment.append(socialPicture);
           socialComment.append(socialText);
           socialCommentsElement.append(socialComment);
         }
-        socialCaptionsElement.textContent = item.description;
+        socialCaptionsElement.textContent = photo.description;
       }
     });
 
