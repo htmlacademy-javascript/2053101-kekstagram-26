@@ -15,6 +15,7 @@ const textDescriptionElement = document.querySelector('.text__description');
 const hashtagInputElement = document.querySelector('.text__hashtags');
 const uploadButtonElement = document.querySelector('.img-upload__submit');
 const imgUploadPreviewElement = document.querySelector('.img-upload__preview img');
+const submitButtonElement = document.querySelector('.img-upload__submit');
 
 // Обработчик на esc
 const onModalEscKeydown = (evt) => {
@@ -32,8 +33,7 @@ const onModalEscKeydown = (evt) => {
 function openModal() {
   imgUploadOverlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onModalEscKeydown);debugger;
-  
+  document.addEventListener('keydown', onModalEscKeydown);
 }
 
 function closeModal() {
@@ -41,7 +41,7 @@ function closeModal() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalEscKeydown);
   uploadImageFormElement.reset();
-  closeSliderElement();debugger;
+  closeSliderElement();
   imgUploadPreviewElement.style.transform = '';
 }
 
@@ -116,12 +116,32 @@ hashtagInputElement.addEventListener('input', onInputHashtagAndDescription);
 
 textDescriptionElement.addEventListener('input', onInputHashtagAndDescription);
 
+
+const blockSubmitButton = () => {
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Отправляется...';
+};
+
+const unblockSubmitButton = () => {
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
+};
+
 // Обработчик на отправку данных формы
 const setImgFormSubmit = () => {
   imgUploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
-    sendData(openSuccessModal, openErrorModal, new FormData(evt.target));
+    blockSubmitButton();
+    sendData(
+      () => {
+        openSuccessModal();
+        unblockSubmitButton();
+      },
+      () => {
+        openErrorModal();
+        unblockSubmitButton();
+      },
+      new FormData(evt.target));
 
   });
 };
