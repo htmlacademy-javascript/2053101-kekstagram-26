@@ -1,8 +1,8 @@
 import { EFFECTS } from './data.js';
 
 const sliderElement = document.querySelector('.effect-level__slider');
-const effectsList = document.querySelector('.effects__list');
-const imgUploadPreview = document.querySelector('.img-upload__preview');
+const effectsListElement = document.querySelector('.effects__list');
+const imgUploadPreviewElement = document.querySelector('.img-upload__preview');
 const valueElement = document.querySelector('.effect-level__value');
 
 // Cоздаем слайдер
@@ -20,30 +20,30 @@ noUiSlider.create(sliderElement, {
 // удаляет модификатор класса и стиль к фото
 const closeSliderElement = () => {
   sliderElement.classList.add('hidden');
-  imgUploadPreview.classList.remove(imgUploadPreview.classList[1]);
-  imgUploadPreview.style.filter = '';
+  imgUploadPreviewElement.classList.remove(imgUploadPreviewElement.classList[1]);
+  imgUploadPreviewElement.style.filter = '';
 };
 
 // Обработчик на изменение ползунка слайдера
 // применяет выбранный эффект к фото
-const onUpdateSliderElement = (effectPreviewModifier) => {
+const onSliderElementUpdate = (effectPreviewModifier) => {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     switch (effectPreviewModifier) {
       case 'effects__preview--chrome':
-        imgUploadPreview.style.filter = `grayscale(${valueElement.value})`;
+        imgUploadPreviewElement.style.filter = `grayscale(${valueElement.value})`;
         break;
       case 'effects__preview--sepia':
-        imgUploadPreview.style.filter = `sepia(${valueElement.value})`;
+        imgUploadPreviewElement.style.filter = `sepia(${valueElement.value})`;
         break;
       case 'effects__preview--marvin':
-        imgUploadPreview.style.filter = `invert(${valueElement.value}%)`;
+        imgUploadPreviewElement.style.filter = `invert(${valueElement.value}%)`;
         break;
       case 'effects__preview--phobos':
-        imgUploadPreview.style.filter = `blur( ${ valueElement.value }px)`;
+        imgUploadPreviewElement.style.filter = `blur( ${ valueElement.value }px)`;
         break;
       case 'effects__preview--heat':
-        imgUploadPreview.style.filter = `brightness(${valueElement.value})`;
+        imgUploadPreviewElement.style.filter = `brightness(${valueElement.value})`;
         break;
     }
   });
@@ -63,10 +63,10 @@ const onEffectListClick = (evt) => {
       sliderElement.classList.remove('hidden');
     }
 
-    if (imgUploadPreview.classList.length > 1) { // если модификаторов у картинки больше чем 1
-      imgUploadPreview.classList.remove(imgUploadPreview.classList[1]); // то удаляем 2-й
+    if (imgUploadPreviewElement.classList.length > 1) { // если модификаторов у картинки больше чем 1
+      imgUploadPreviewElement.classList.remove(imgUploadPreviewElement.classList[1]); // то удаляем 2-й
     }
-    imgUploadPreview.classList.add(effectPreviewModifier);
+    imgUploadPreviewElement.classList.add(effectPreviewModifier);
 
     let min;
     let max;
@@ -92,13 +92,13 @@ const onEffectListClick = (evt) => {
       start: start,
     });
 
-    onUpdateSliderElement(effectPreviewModifier);
+    onSliderElementUpdate(effectPreviewModifier);
 
   }
 };
 
 // Добавляем обработчик на click по картинке
-effectsList.addEventListener('click', (evt) => onEffectListClick(evt));
+effectsListElement.addEventListener('click', (evt) => onEffectListClick(evt));
 
 sliderElement.classList.add('hidden');
 
