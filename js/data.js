@@ -51,11 +51,8 @@ const EFFECTS = [
   },
 ];
 
-// Допустимые форматы загружаемых изображений
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
 // Предустановки для масштабирования превью фото
 const SCALE_STEP = 25;
 const  SCALE_MAX = 100;
 
-export { ALERT_SHOW_TIME, MAX_SYMBOLS, MAX_HASHTAGS, EFFECTS, SCALE_STEP, SCALE_MAX, SOCIAL_COMMENTS_STEP, RANDOM_PHOTOS, RERENDER_DELAY, FILE_TYPES };
+export { ALERT_SHOW_TIME, MAX_SYMBOLS, MAX_HASHTAGS, EFFECTS, SCALE_STEP, SCALE_MAX, SOCIAL_COMMENTS_STEP, RANDOM_PHOTOS, RERENDER_DELAY };

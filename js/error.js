@@ -1,38 +1,38 @@
 import { isEsc } from './util.js';
 
-const errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
-const newErrorElement = errorTemplateElement.cloneNode(true);
-const errorButtonElement = newErrorElement.querySelector('.error__button');
-const imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const newError = errorTemplate.cloneNode(true);
+const errorButton = newError.querySelector('.error__button');
+const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 
-// Обработчик на esc keydown
-const onErrorModalEscKeydown = (evt) => {
+// Обработчик на document на esc keydown
+const onDocumentEscKeydown = (evt) => {
   if(isEsc(evt)) {
     evt.preventDefault();
     closeErrorModal();
   }
 };
 
-// Обработчик на click вне формы
-const onOutOfErrorModal = (evt) => {
-  if(evt.target ===  newErrorElement) {
+// Обработчик на не по форме на click
+const onNotNewError = (evt) => {
+  if(evt.target ===  newError) {
     closeErrorModal();
   }
 };
 
 function openErrorModal() {
-  document.body.append(newErrorElement);
-  errorButtonElement.addEventListener('click', closeErrorModal);
-  document.addEventListener('keydown', onErrorModalEscKeydown);
-  newErrorElement.addEventListener('click', onOutOfErrorModal);
-  imgUploadOverlayElement.classList.add('hidden');
+  document.body.append(newError);
+  errorButton.addEventListener('click', closeErrorModal);
+  document.addEventListener('keydown', onDocumentEscKeydown);
+  newError.addEventListener('click', onNotNewError);
+  imgUploadOverlay.classList.add('hidden');
   document.body.classList.add('modal-open');
 }
 
 function closeErrorModal() {
-  newErrorElement.remove();
-  document.removeEventListener('keydown', onErrorModalEscKeydown);
-  imgUploadOverlayElement.classList.remove('hidden');
+  newError.remove();
+  document.removeEventListener('keydown', onDocumentEscKeydown);
+  imgUploadOverlay.classList.remove('hidden');
   document.body.classList.remove('modal-open');
 
 }

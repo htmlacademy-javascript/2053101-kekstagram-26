@@ -2,16 +2,16 @@ import { isEsc, createNewElement } from './util.js';
 import { SOCIAL_COMMENTS_STEP } from './data.js';
 import './filter.js';
 
-const picturesSectionElement = document.querySelector('.pictures');
-const bigPictureElement = document.querySelector('.big-picture');
-const bigPictureImgElement = bigPictureElement.querySelector('.big-picture__img').querySelector('img');
-const bigPictureCloseButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
-const likesCountElement = document.querySelector('.likes-count');
-const socialCommentsElement = document.querySelector('.social__comments');
-const socialCaptionsElement = document.querySelector('.social__caption');
-const socialCommentCountElement = document.querySelector('.social__comment-count'); // Контейнер для кол-ва комментариев
-const commentsCountElement = document.querySelector('.comments-count');
-const commentsLoaderElement = document.querySelector('.comments-loader');
+const picturesSection = document.querySelector('.pictures');
+const bigPicture = document.querySelector('.big-picture');
+const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
+const bigPictureCloseButton = bigPicture.querySelector('.big-picture__cancel');
+const likesCount = document.querySelector('.likes-count');
+const socialComments = document.querySelector('.social__comments');
+const socialCaptions = document.querySelector('.social__caption');
+const socialCommentCount = document.querySelector('.social__comment-count'); // Контейнер для кол-ва комментариев
+const commentsCount = document.querySelector('.comments-count');
+const commentsLoader = document.querySelector('.comments-loader');
 let socialCommentsForLoading = 5;
 
 
@@ -28,7 +28,7 @@ const getSocialCommentsForLoading = (pictureComments) => {
   if(pictureComments > socialCommentsForLoading) {
     return socialCommentsForLoading;
   } else {
-    commentsLoaderElement.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
     return pictureComments;
   }
 };
@@ -43,29 +43,29 @@ const onBigPictureEscKeydown = (evt) => {
 
 // Функция открытия большой картинки
 function openBigPicture () {
-  bigPictureElement.classList.remove('hidden');
+  bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onBigPictureEscKeydown);
-  commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
-  bigPictureCloseButtonElement.addEventListener('click', () => closeBigPicture());
+  commentsLoader.addEventListener('click', onCommentsLoaderClick);
+  bigPictureCloseButton.addEventListener('click', () => closeBigPicture());
 
 }
 
 // Функция закрытия большой картинки
 function closeBigPicture ()  {
-  bigPictureElement.classList.add('hidden');
+  bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPictureEscKeydown);
-  bigPictureCloseButtonElement.removeEventListener('click', () => closeBigPicture());
-  commentsLoaderElement.removeEventListener('click', onCommentsLoaderClick);
+  bigPictureCloseButton.removeEventListener('click', () => closeBigPicture());
+  commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   socialCommentsForLoading = SOCIAL_COMMENTS_STEP;
-  commentsLoaderElement.classList.remove('hidden');
+  commentsLoader.classList.remove('hidden');
 }
 
 // Функция возвращает отфильтрованные фото
 let photos = [];
-const renderComments = (filteredPhotos) => {
-  photos = filteredPhotos;
+const renderComments = (filteredPhoto) => {
+  photos = filteredPhoto;
 };
 
 // Функция отрисовывает большое фото и добавляет комментарии
@@ -76,34 +76,34 @@ const onPictureClick = (evt) => {
     const currentPictureIndex = Number(currentElement.closest('a').dataset.index); // Текущий индекс элемента из data-атрибута
     const currentPictureLikes = currentElement.closest('a').querySelector('.picture__likes').textContent; // Кол-во лайков
     const currentPictureComments = currentElement.closest('a').querySelector('.picture__comments').textContent; // Кол-во комментариев всего
-    const socialCommentsForLoadingValue = getSocialCommentsForLoading(currentPictureComments); // Кол-во лайков для загрузки
+    const socialCommentsForLoadingValue = getSocialCommentsForLoading(currentPictureComments);
 
     // Записываем данные в большую картинку и комментарии к ней
-    bigPictureImgElement.src = currentElement.src;
-    likesCountElement.textContent = currentPictureLikes;
-    commentsCountElement.textContent = `${ currentPictureComments } комментариев`;
-    socialCommentCountElement.textContent = `${ socialCommentsForLoadingValue } из `;
-    socialCommentCountElement.append(commentsCountElement);
+    bigPictureImg.src = currentElement.src;
+    likesCount.textContent = currentPictureLikes;
+    commentsCount.textContent = `${ currentPictureComments } комментариев`;
+    socialCommentCount.textContent = `${ socialCommentsForLoadingValue } из `;
+    socialCommentCount.append(commentsCount);
 
     // Очищаем шаблонные комментарии
-    socialCommentsElement.textContent = '';
+    socialComments.textContent = '';
 
     // Находим объект по index, чтобы создать комментарии, описание и т.д. к большой картинке
-    photos.forEach((photo, photoIndex) => {
-      if(photoIndex === currentPictureIndex) {
+    photos.forEach((item, index) => {
+      if(index === currentPictureIndex) {
         for(let i = 0; i < socialCommentsForLoadingValue; i++) {
           const socialComment = createNewElement('li','social__comment');
           const socialPicture = createNewElement('img','social__picture');
-          socialPicture.src = photo.comments[i].avatar;
-          socialPicture.alt = photo.comments[i].name;
+          socialPicture.src = item.comments[i].avatar;
+          socialPicture.alt = item.comments[i].name;
           socialPicture.width = '35';
           socialPicture.height = '35';
-          const socialText = createNewElement('p', 'social__text', photo.comments[i].message);
+          const socialText = createNewElement('p', 'social__text', item.comments[i].message);
           socialComment.append(socialPicture);
           socialComment.append(socialText);
-          socialCommentsElement.append(socialComment);
+          socialComments.append(socialComment);
         }
-        socialCaptionsElement.textContent = photo.description;
+        socialCaptions.textContent = item.description;
       }
     });
 
@@ -113,7 +113,7 @@ const onPictureClick = (evt) => {
 };
 
 // Добавляем делегирование на контейнер картинок
-picturesSectionElement.addEventListener('click', onPictureClick);
+picturesSection.addEventListener('click', onPictureClick);
 
 
 export {renderComments};

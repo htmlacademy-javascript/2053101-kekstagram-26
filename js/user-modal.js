@@ -1,24 +1,22 @@
 import { isEsc, testUnique, checkStringLength } from './util.js';
-import { MAX_HASHTAGS, MAX_SYMBOLS, FILE_TYPES } from './data.js';
+import { MAX_HASHTAGS, MAX_SYMBOLS } from './data.js';
 import { closeSliderElement } from './effect.js';
 import { openSuccessModal } from './success.js';
 import { openErrorModal } from './error.js';
 import { sendData } from './api.js';
 
+const uploadImageForm = document.querySelector('#upload-select-image');
+const uploadFile = document.querySelector('#upload-file');
+const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const uploadFileClose = document.querySelector('#upload-cancel');
+const imgUploadForm = document.querySelector('.img-upload__form');
+const textDescription = document.querySelector('.text__description');
+const hashtagInput = document.querySelector('.text__hashtags');
+const uploadButton = document.querySelector('.img-upload__submit');
 
-const uploadImageFormElement = document.querySelector('#upload-select-image');
-const uploadFileElement = document.querySelector('#upload-file');
-const imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
-const uploadFileCloseElement = document.querySelector('#upload-cancel');
-const imgUploadFormElement = document.querySelector('.img-upload__form');
-const textDescriptionElement = document.querySelector('.text__description');
-const hashtagInputElement = document.querySelector('.text__hashtags');
-const uploadButtonElement = document.querySelector('.img-upload__submit');
-const imgUploadPreviewElement = document.querySelector('.img-upload__preview img');
-const submitButtonElement = document.querySelector('.img-upload__submit');
 
 // Обработчик на esc
-const onModalEscKeydown = (evt) => {
+const onEscKeydown = (evt) => {
   if(isEsc(evt)) {
     const activeElementClassName = document.activeElement.className;
     if(activeElementClassName !== 'text__hashtags' &&
@@ -31,35 +29,25 @@ const onModalEscKeydown = (evt) => {
 };
 
 function openModal() {
-  imgUploadOverlayElement.classList.remove('hidden');
+  imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onModalEscKeydown);
+  document.addEventListener('keydown', onEscKeydown);
 }
 
 function closeModal() {
-  imgUploadOverlayElement.classList.add('hidden');
+  imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onModalEscKeydown);
-  uploadImageFormElement.reset();
+  document.removeEventListener('keydown', onEscKeydown);
+  uploadImageForm.reset();
   closeSliderElement();
-  imgUploadPreviewElement.style.transform = '';
 }
 
-uploadFileElement.addEventListener('change', () => {
-  openModal();
-  const file = uploadFileElement.files[0];
-  const fileName = file.name.toLowerCase();
+uploadFile.addEventListener('change', () => openModal());
 
-  const matches = FILE_TYPES.some((element) => fileName.endsWith(element));
-  if (matches) {
-    imgUploadPreviewElement.src = URL.createObjectURL(file);
-  }
-});
-
-uploadFileCloseElement.addEventListener('click', () => closeModal());
+uploadFileClose.addEventListener('click', () => closeModal());
 
 // Настройка pristine
-const pristine = new Pristine(imgUploadFormElement, {
+const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--invalid',
   successClass: 'img-upload__field-wrapper--valid',
@@ -71,7 +59,7 @@ const pristine = new Pristine(imgUploadFormElement, {
 // Валидация хэштегов
 const hashtags = (value) => value.toLowerCase().split(' ');
 
-pristine.addValidator(hashtagInputElement,
+pristine.addValidator(hashtagInput,
   (value) => hashtags(value).length <= MAX_HASHTAGS,
   'Хэштегов должно быть не более 5-ти'
 );
@@ -86,62 +74,42 @@ const isHashtagValid = (value) => {
   } return true;
 };
 
-pristine.addValidator(hashtagInputElement,
+pristine.addValidator(hashtagInput,
   (value) => isHashtagValid(value),
   'Хэштег должен начинаться с # и не должен  содержать пробелы, спецсимволы (#, @, $ и т. п.)'
 );
 
-pristine.addValidator(hashtagInputElement,
+pristine.addValidator(hashtagInput,
   (value) => testUnique(hashtags(value)),
   'Хэштеги не должны повторяться'
 );
 
 // Валидация комментариев
-pristine.addValidator(textDescriptionElement,
+pristine.addValidator(textDescription,
   (value) => checkStringLength(value, MAX_SYMBOLS),
 );
 
 // Обработчик на блокировку/разблокировку кнопки отправки формы
 // при вводе данных в хештег и описание
-const onInputHashtagAndDescription = () => {
+const onInputHashtagDescription = () => {
   const isValid = pristine.validate();
   if(!isValid) {
-    uploadButtonElement.disabled = true;
+    uploadButton.disabled = true;
   } else {
-    uploadButtonElement.disabled = false;
+    uploadButton.disabled = false;
   }
 };
 
-hashtagInputElement.addEventListener('input', onInputHashtagAndDescription);
+hashtagInput.addEventListener('input', onInputHashtagDescription);
 
-textDescriptionElement.addEventListener('input', onInputHashtagAndDescription);
-
-
-const blockSubmitButton = () => {
-  submitButtonElement.disabled = true;
-  submitButtonElement.textContent = 'Отправляется...';
-};
-
-const unblockSubmitButton = () => {
-  submitButtonElement.disabled = false;
-  submitButtonElement.textContent = 'Опубликовать';
-};
+textDescription.addEventListener('input', onInputHashtagDescription);
 
 // Обработчик на отправку данных формы
 const setImgFormSubmit = () => {
-  imgUploadFormElement.addEventListener('submit', (evt) => {
+  imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    blockSubmitButton();
-    sendData(
-      () => {
-        openSuccessModal();
-        unblockSubmitButton();
-      },
-      () => {
-        openErrorModal();
-        unblockSubmitButton();
-      },
-      new FormData(evt.target));
+
+    sendData(openSuccessModal, openErrorModal, new FormData(evt.target));
 
   });
 };
