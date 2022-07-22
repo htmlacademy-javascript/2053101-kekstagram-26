@@ -4,6 +4,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectsListElement = document.querySelector('.effects__list');
 const imgUploadPreviewElement = document.querySelector('.img-upload__preview');
 const valueElement = document.querySelector('.effect-level__value');
+const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
 
 // Cоздаем слайдер
 noUiSlider.create(sliderElement, {
@@ -20,6 +21,7 @@ noUiSlider.create(sliderElement, {
 // удаляет модификатор класса и стиль к фото
 const closeSliderElement = () => {
   sliderElement.classList.add('hidden');
+  imgUploadEffectLevel.classList.add('hidden');
   imgUploadPreviewElement.classList.remove(imgUploadPreviewElement.classList[1]);
   imgUploadPreviewElement.style.filter = '';
 };
@@ -61,6 +63,7 @@ const onEffectListClick = (evt) => {
       return;
     } else {
       sliderElement.classList.remove('hidden');
+      imgUploadEffectLevel.classList.remove('hidden');
     }
 
     if (imgUploadPreviewElement.classList.length > 1) { // если модификаторов у картинки больше чем 1
