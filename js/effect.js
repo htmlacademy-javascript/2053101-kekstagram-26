@@ -4,7 +4,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectsListElement = document.querySelector('.effects__list');
 const imgUploadPreviewElement = document.querySelector('.img-upload__preview');
 const valueElement = document.querySelector('.effect-level__value');
-const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
+const sliderFieldElement = document.querySelector('.img-upload__effect-level');
 
 // Cоздаем слайдер
 noUiSlider.create(sliderElement, {
@@ -20,8 +20,7 @@ noUiSlider.create(sliderElement, {
 // Функция скрывает слайдер
 // удаляет модификатор класса и стиль к фото
 const closeSliderElement = () => {
-  sliderElement.classList.add('hidden');
-  imgUploadEffectLevel.classList.add('hidden');
+  sliderFieldElement.classList.add('hidden');
   imgUploadPreviewElement.classList.remove(imgUploadPreviewElement.classList[1]);
   imgUploadPreviewElement.style.filter = '';
 };
@@ -62,8 +61,7 @@ const onEffectListClick = (evt) => {
       closeSliderElement();
       return;
     } else {
-      sliderElement.classList.remove('hidden');
-      imgUploadEffectLevel.classList.remove('hidden');
+      sliderFieldElement.classList.remove('hidden');
     }
 
     if (imgUploadPreviewElement.classList.length > 1) { // если модификаторов у картинки больше чем 1
@@ -103,6 +101,6 @@ const onEffectListClick = (evt) => {
 // Добавляем обработчик на click по картинке
 effectsListElement.addEventListener('click', (evt) => onEffectListClick(evt));
 
-sliderElement.classList.add('hidden');
+sliderFieldElement.classList.add('hidden');
 
 export { closeSliderElement };
